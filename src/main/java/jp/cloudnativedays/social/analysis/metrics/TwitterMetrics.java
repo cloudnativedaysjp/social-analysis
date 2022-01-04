@@ -1,40 +1,34 @@
 package jp.cloudnativedays.social.analysis.metrics;
 
-import io.micrometer.core.instrument.Meter;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Tags;
+import io.micrometer.core.instrument.*;
 import jp.cloudnativedays.social.analysis.model.TweetData;
 
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class TwitterMetrics {
     private MeterRegistry meterRegistry;
-    private TweetData tweetData;
     private String metricsName = "social.twitter.sentiment";
+    private Map<String, Integer> gaugeCache = new HashMap<>();
 
     public TwitterMetrics(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
     }
 
-    public void setSentimentMetrics(TweetData tweetData, Integer i){
-
-        AtomicInteger sentimentScore = (AtomicInteger) meterRegistry.find(metricsName).
-                tag("tweetID", tweetData.getTweetId()).
-                gauge();
-        if(sentimentScore == null){
-            sentimentScore = meterRegistry.gauge(
+    public void setSentimentMetrics(TweetData tweetData){
+        gaugeCache.put(tweetData.getTweetId(),tweetData.getSentimentScore());
+        meterRegistry.gauge(
                     metricsName,
-                    Tags.concat(Tags.empty(),
-                            "hashTag", tweetData.getQueryHashTag(),
-                            "tweetId",tweetData.getTweetId()
+                    Tags.of(
+                            Tag.of("hashTag", tweetData.getQueryHashTag()),
+                            Tag.of("tweetId",tweetData.getTweetId())
                     ),
-                    new AtomicInteger()
+                    gaugeCache,
+                    g -> g.get(tweetData.getTweetId())
             );
-        }
-        sentimentScore.getAndAdd(i);
     }
 
     public void getSentimentMetrics(){
@@ -42,5 +36,4 @@ public class TwitterMetrics {
             System.out.println(meter.getId());
         }
     }
-
 }

@@ -3,14 +3,13 @@ package jp.cloudnativedays.social.analysis.model;
 public class TweetData {
     public String tweetId;
     public String queryHashTag;
-    public String tweetTxt;
+    public Integer sentimentScore;
 
-    public TweetData(String tweetId, String queryHashTag, String tweetTxt) {
+    public TweetData(String tweetId, String queryHashTag, String tweetTxt, Integer sentimentScore) {
         this.tweetId = tweetId;
         this.queryHashTag = queryHashTag;
-        this.tweetTxt = tweetTxt;
+        this.sentimentScore = sentimentScore;
     }
-
 
     public String getTweetId() {
         return tweetId;
@@ -20,7 +19,7 @@ public class TweetData {
         return queryHashTag;
     }
 
-    public String getTweetTxt() {
-        return tweetTxt;
+    public Integer getSentimentScore() {
+        return sentimentScore;
     }
 }

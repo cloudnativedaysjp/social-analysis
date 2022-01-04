@@ -34,3 +34,4 @@ build/
 
 ### ignore twitter4j
 **/twitter4j.properties
+*.trim

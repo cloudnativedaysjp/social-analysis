@@ -19,6 +19,7 @@ public class TwitterService {
     private MorphologicalAnalysis morphologicalAnalysis;
     private TwitterMetrics twitterMetrics;
     private Twitter twitter;
+    private Long maxId = 0L;
 
     public TwitterService(Sentiment sentiment, MorphologicalAnalysis morphologicalAnalysis, TwitterMetrics twitterMetrics) {
         this.sentiment = sentiment;
@@ -37,11 +38,10 @@ public class TwitterService {
     String[] queryHashTags;
 
     public void searchTwitterAndSetMetrics() throws TwitterException {
-        System.out.println(queryHashTags);
-        for (String queryHashTag: queryHashTags) {
 
-            System.out.println(queryHashTag);
+        for (String queryHashTag: queryHashTags) {
             Query query = new Query(queryHashTag);
+            query.setSinceId(maxId);
             Boolean hasNext = true;
 
             while (hasNext) {
@@ -49,18 +49,10 @@ public class TwitterService {
                 hasNext = queryResult.hasNext();
                 query = queryResult.nextQuery();
 
-                System.out.println(queryResult.getCount());
-                System.out.println(queryResult.hasNext());
-                System.out.println(queryResult.nextQuery());
+                if(maxId < queryResult.getMaxId()) maxId = queryResult.getMaxId();
 
                 for (Status status : queryResult.getTweets()) {
                     String tweetTxt = status.getText();
-
-                    TweetData tweetData = new TweetData(
-                            Long.toString(status.getId()),
-                            queryHashTag,
-                            status.getText()
-                    );
                     if (status.getLang().equals("ja")) {
                         List<Token> tokenList = morphologicalAnalysis.getToken(tweetTxt);
                         int sentiScore = 0;
@@ -68,8 +60,13 @@ public class TwitterService {
                             String surface = token.getSurface();
                             sentiScore += sentiment.getSentimentScore(surface);
                         }
-                        System.out.println(sentiScore);
-                        twitterMetrics.setSentimentMetrics(tweetData, sentiScore);
+                        TweetData tweetData = new TweetData(
+                                Long.toString(status.getId()),
+                                queryHashTag,
+                                status.getText(),
+                                sentiScore
+                        );
+                        twitterMetrics.setSentimentMetrics(tweetData);
                     }
                 }
             }
