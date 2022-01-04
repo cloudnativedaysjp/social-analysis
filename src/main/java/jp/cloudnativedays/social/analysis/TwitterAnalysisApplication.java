@@ -1,6 +1,7 @@
 package jp.cloudnativedays.social.analysis;
 
 import com.atilika.kuromoji.ipadic.Token;
+import jp.cloudnativedays.social.analysis.metrics.TwitterMetrics;
 import jp.cloudnativedays.social.analysis.service.MorphologicalAnalysis;
 import jp.cloudnativedays.social.analysis.service.TwitterService;
 import jp.cloudnativedays.social.analysis.service.Sentiment;
@@ -25,6 +26,9 @@ public class TwitterAnalysisApplication implements CommandLineRunner {
     @Autowired
     TwitterService twitterService;
 
+    @Autowired
+    TwitterMetrics twitterMetrics;
+
     public static void main(String[] args) {
         SpringApplication.run(TwitterAnalysisApplication.class, args);
 
@@ -41,7 +45,8 @@ public class TwitterAnalysisApplication implements CommandLineRunner {
             sentiScore = nlp.getSentimentScore(surface);
         }
         System.out.println(sentiScore);
+        twitterService.searchTwitterAndSetMetrics();
+        twitterMetrics.getSentimentMetrics();
 
-        twitterService.getTwitterData(0L);
     }
 }

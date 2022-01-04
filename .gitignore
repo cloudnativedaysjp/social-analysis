@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### ignore twitter4j
+**/twitter4j.properties

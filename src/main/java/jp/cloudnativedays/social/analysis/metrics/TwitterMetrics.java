@@ -1,45 +1,46 @@
 package jp.cloudnativedays.social.analysis.metrics;
 
-import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Meter;
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
+import jp.cloudnativedays.social.analysis.model.TweetData;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class TwitterMetrics {
     private MeterRegistry meterRegistry;
-
-    private Counter totalTweets;
-    private AtomicInteger sentimentScore;
-    private String metrics_prefix = "social.twitter";
-
-    private Map<Integer, Counter> metricCounters = null;
+    private TweetData tweetData;
+    private String metricsName = "social.twitter.sentiment";
 
     public TwitterMetrics(MeterRegistry meterRegistry) {
         this.meterRegistry = meterRegistry;
-        initMetrics();
     }
 
-    public void initMetrics(){
-        totalTweets = meterRegistry.counter(metrics_prefix + "total_tweets");
-        sentimentScore = meterRegistry.gauge(metrics_prefix + "sentiment_score" , new AtomicInteger());
-    }
+    public void setSentimentMetrics(TweetData tweetData, Integer i){
 
-    public void incrementTotalTweets(double d){
-        totalTweets.increment(d);
-    }
-
-    public void setSentimentScore(int i){
+        AtomicInteger sentimentScore = (AtomicInteger) meterRegistry.find(metricsName).
+                tag("tweetID", tweetData.getTweetId()).
+                gauge();
+        if(sentimentScore == null){
+            sentimentScore = meterRegistry.gauge(
+                    metricsName,
+                    Tags.concat(Tags.empty(),
+                            "hashTag", tweetData.getQueryHashTag(),
+                            "tweetId",tweetData.getTweetId()
+                    ),
+                    new AtomicInteger()
+            );
+        }
         sentimentScore.getAndAdd(i);
     }
 
-    public double getTotalTweets(){
-        return totalTweets.count();
+    public void getSentimentMetrics(){
+        for(Meter meter : meterRegistry.getMeters()){
+            System.out.println(meter.getId());
+        }
     }
 
-    public int getSentimentScore(){
-        return sentimentScore.get();
-    }
 }
