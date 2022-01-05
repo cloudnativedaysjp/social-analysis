@@ -9,20 +9,20 @@ This is a simple Java Spring Boot application to perform social analysis. The fo
 
 # Features
 
-- Search twitter tweets based on specified query
+- Search Twitter tweets based on specified query
 - Simple scoring based on noun included in the tweet text
 - Export metrics via Prometheus format
 
 # Metrics Example   
 
 
-Metrics is available at `http://:8080/actuator/prometheus`. Two labels will be included for each metrics.   
+Metrics is available at `http://:8080/actuator/prometheus`. The following labels will be included for each metric.   
 
-- `isRetweet` : Indicates wheter a tweet is a retweet
-- `queryString`: The query string used to search tweet
-- `tweetId`: Individual tweet id
+- `isRetweet` Indicates whether a tweet is a retweet
+- `queryString`The query string used to search tweet
+- `tweetId`Individual tweet id
 
-Each metrics will expose the sentiment score based on the nouns included in the tweet message.
+Each metric will expose the sentiment score based on the nouns included in the tweet message.
 
 ```
 social_twitter_sentiment{isRetweet="true",queryString="#o11y2022",tweetId="1476205741967294466",} 1.0
@@ -35,7 +35,7 @@ social_twitter_sentiment{isRetweet="false",queryString="#o11y2022",tweetId="1476
 
 - Java 8 (or above)
 - [Japanese Sentiment Polarity Dictionary](https://www.cl.ecei.tohoku.ac.jp/Open_Resources-Japanese_Sentiment_Polarity_Dictionary.html)
-- [Twiiter API account](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api)
+- [Twitter API account](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api)
 
 ## Download and placing sentiment dictionary
 
