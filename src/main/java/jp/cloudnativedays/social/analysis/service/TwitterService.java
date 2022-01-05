@@ -40,12 +40,12 @@ public class TwitterService {
 	}
 
 	@Value("${twitter.query}")
-	String[] queryHashTags;
+	String[] queryStrings;
 
 	public void searchTwitterAndSetMetrics() throws TwitterException {
 
-		for (String queryHashTag : queryHashTags) {
-			Query query = new Query(queryHashTag);
+		for (String queryString : queryStrings) {
+			Query query = new Query(queryString);
 			query.setSinceId(maxId);
 			boolean hasNext = true;
 
@@ -58,7 +58,7 @@ public class TwitterService {
 				if (maxId < queryResult.getMaxId())
 					maxId = queryResult.getMaxId();
 
-				logger.info("Performed Twitter Query : QueryString '" + queryHashTag + "': "
+				logger.info("Performed Twitter Query : QueryString '" + queryString + "': "
 						+ queryResult.getTweets().size() + " items found " + ": hasNextPage is " + hasNext);
 
 				for (Status status : queryResult.getTweets()) {
@@ -70,7 +70,7 @@ public class TwitterService {
 							String surface = token.getSurface();
 							sentiScore += sentiment.getSentimentScore(surface);
 						}
-						TweetData tweetData = new TweetData(Long.toString(status.getId()), queryHashTag, sentiScore);
+						TweetData tweetData = new TweetData(Long.toString(status.getId()), queryString, sentiScore);
 						twitterMetrics.setSentimentMetrics(tweetData);
 					}
 				}

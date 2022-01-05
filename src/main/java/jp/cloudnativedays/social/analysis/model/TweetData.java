@@ -4,13 +4,13 @@ public class TweetData {
 
 	public String tweetId;
 
-	public String queryHashTag;
+	public String queryString;
 
 	public Integer sentimentScore;
 
-	public TweetData(String tweetId, String queryHashTag, Integer sentimentScore) {
+	public TweetData(String tweetId, String queryString, Integer sentimentScore) {
 		this.tweetId = tweetId;
-		this.queryHashTag = queryHashTag;
+		this.queryString = queryString;
 		this.sentimentScore = sentimentScore;
 	}
 
@@ -18,8 +18,8 @@ public class TweetData {
 		return tweetId;
 	}
 
-	public String getQueryHashTag() {
-		return queryHashTag;
+	public String getQueryString() {
+		return queryString;
 	}
 
 	public Integer getSentimentScore() {

@@ -15,7 +15,7 @@ public class TwitterMetrics {
 
 	private static final String METRICS_NAME = "social.twitter.sentiment";
 
-	private static final String HASH_TAG = "hashTag";
+	private static final String QUERY_STRING = "queryString";
 
 	private static final String TWEET_ID = "tweedId";
 
@@ -28,7 +28,7 @@ public class TwitterMetrics {
 	public void setSentimentMetrics(TweetData tweetData) {
 		gaugeCache.put(tweetData.getTweetId(), tweetData.getSentimentScore());
 		meterRegistry.gauge(METRICS_NAME,
-				Tags.of(Tag.of(HASH_TAG, tweetData.getQueryHashTag()), Tag.of(TWEET_ID, tweetData.getTweetId())),
+				Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId())),
 				gaugeCache, g -> g.get(tweetData.getTweetId()));
 	}
 
