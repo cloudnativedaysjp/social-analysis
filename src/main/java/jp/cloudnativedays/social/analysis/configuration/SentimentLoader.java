@@ -13,8 +13,11 @@ import java.util.Map;
 @Configuration
 public class SentimentLoader {
 
-	@Value("classpath:${sentimentFile}")
-	File sentimentFile;
+	private final File sentimentFile;
+
+	public SentimentLoader(@Value("classpath:${sentimentFile}") File sentimentFile) {
+		this.sentimentFile = sentimentFile;
+	}
 
 	public Map<String, Integer> getSentimentMap() {
 		Map<String, Integer> sentiMap = new HashMap<>();
