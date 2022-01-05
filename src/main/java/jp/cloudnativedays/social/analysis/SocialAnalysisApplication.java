@@ -2,15 +2,18 @@ package jp.cloudnativedays.social.analysis;
 
 import jp.cloudnativedays.social.analysis.metrics.TwitterMetrics;
 import jp.cloudnativedays.social.analysis.service.TwitterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.List;
-
 @SpringBootApplication
 public class SocialAnalysisApplication implements CommandLineRunner{
+
+
+    private static final Logger logger = LoggerFactory.getLogger(SocialAnalysisApplication.class);
 
     @Autowired
     TwitterService twitterService;
@@ -26,10 +29,8 @@ public class SocialAnalysisApplication implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
 
-        System.out.println("first run");
+        logger.info("Perform initial twitter search");
         twitterService.searchTwitterAndSetMetrics();
-        System.out.println("second run");
-        twitterService.searchTwitterAndSetMetrics();
-
+        logger.info("Initial twitter search is completed.");
     }
 }

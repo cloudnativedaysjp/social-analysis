@@ -1,5 +1,7 @@
 package jp.cloudnativedays.social.analysis.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.atilika.kuromoji.ipadic.Token;
 import jp.cloudnativedays.social.analysis.metrics.TwitterMetrics;
 import jp.cloudnativedays.social.analysis.model.TweetData;
@@ -7,13 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import twitter4j.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TwitterService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TwitterService.class);
 
     private Sentiment sentiment;
     private MorphologicalAnalysis morphologicalAnalysis;
@@ -45,11 +46,17 @@ public class TwitterService {
             Boolean hasNext = true;
 
             while (hasNext) {
+
                 QueryResult queryResult = twitter.search(query);
                 hasNext = queryResult.hasNext();
                 query = queryResult.nextQuery();
 
                 if(maxId < queryResult.getMaxId()) maxId = queryResult.getMaxId();
+
+                logger.info("Performed Twitter Query : QueryString '" + queryHashTag
+                        + "': " + queryResult.getTweets().size() + " items found "
+                        + ": hasNextPage is " + hasNext
+                );
 
                 for (Status status : queryResult.getTweets()) {
                     String tweetTxt = status.getText();
