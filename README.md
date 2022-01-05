@@ -18,17 +18,18 @@ This is a simple Java Spring Boot application to perform social analysis. The fo
 
 Metrics is available at `http://:8080/actuator/prometheus`. The following labels will be included for each metric.   
 
-- `isRetweet` Indicates whether a tweet is a retweet
 - `queryString`The query string used to search tweet
 - `tweetId`Individual tweet id
 
-Each metric will expose the sentiment score based on the nouns included in the tweet message.
+Each metric will expose the sentiment score based on the nouns included in the tweet message, retweet counts, and favorite counts.
 
 ```
-social_twitter_sentiment{isRetweet="true",queryString="#o11y2022",tweetId="1476205741967294466",} 1.0
-social_twitter_sentiment{isRetweet="true",queryString="#o11y2022",tweetId="1478281008890134528",} 0.0
-social_twitter_sentiment{isRetweet="false",queryString="#o11y2022",tweetId="1476927383177412610",} 1.0
-social_twitter_sentiment{isRetweet="false",queryString="#o11y2022",tweetId="1476085397315002369",} 0.0
+social_twitter_favorites{queryString="#o11y2022",tweetId="1476027294598955016",} 2.0
+social_twitter_favorites{queryString="#o11y2022",tweetId="1478561903177830403",} 7.0
+social_twitter_retweets{queryString="#o11y2022",tweetId="1476027294598955016",} 0.0
+social_twitter_retweets{queryString="#o11y2022",tweetId="1478561903177830403",} 7.0
+social_twitter_sentiment{queryString="#o11y2022",tweetId="1476025197392273410",} 0.0
+social_twitter_sentiment{queryString="#o11y2022",tweetId="1478593190190108675",} 2.0
 ```
 
 # Prerequisite
