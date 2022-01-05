@@ -29,6 +29,7 @@ public class SocialAnalysisApplication implements CommandLineRunner {
 		logger.info("Perform initial twitter search");
 		twitterService.searchTwitterAndSetMetrics();
 		logger.info("Initial twitter search is completed.");
+		twitterService.searchTwitterAndSetMetrics();
 	}
 
 }

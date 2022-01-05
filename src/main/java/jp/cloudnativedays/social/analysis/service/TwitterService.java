@@ -24,8 +24,6 @@ public class TwitterService {
 
 	private Twitter twitter;
 
-	private Long maxId = 0L;
-
 	public TwitterService(Sentiment sentiment, MorphologicalAnalysis morphologicalAnalysis,
 			TwitterMetrics twitterMetrics) {
 		this.sentiment = sentiment;
@@ -46,7 +44,6 @@ public class TwitterService {
 
 		for (String queryString : queryStrings) {
 			Query query = new Query(queryString);
-			query.setSinceId(maxId);
 			boolean hasNext = true;
 
 			while (hasNext) {
@@ -55,30 +52,36 @@ public class TwitterService {
 				hasNext = queryResult.hasNext();
 				query = queryResult.nextQuery();
 
-				if (maxId < queryResult.getMaxId())
-					maxId = queryResult.getMaxId();
-
 				logger.info("Performed Twitter Query : QueryString '" + queryString + "': "
 						+ queryResult.getTweets().size() + " items found " + ": hasNextPage is " + hasNext);
 
 				for (Status status : queryResult.getTweets()) {
-					String tweetTxt = status.getText();
-					if (status.getLang().equals("ja")) {
-						List<Token> tokenList = morphologicalAnalysis.getToken(tweetTxt);
-						int sentiScore = 0;
-						for (Token token : tokenList) {
-							String surface = token.getSurface();
-							int Score = sentiment.getSentimentScore(surface);
-							if (Score != 0) {
-								logger.debug("Found sentiment score match in tweetID  : " + status.getId()
-										+ " ; Word : " + surface + " Score : " + Score);
-							}
-							sentiScore += sentiment.getSentimentScore(surface);
-						}
-						TweetData tweetData = new TweetData(Long.toString(status.getId()), queryString,
-								status.isRetweet(), sentiScore);
-						twitterMetrics.setSentimentMetrics(tweetData);
+					if (status.isRetweet()) {
+						continue;
 					}
+					TweetData tweetData = new TweetData(Long.toString(status.getId()), queryString, status.isRetweet());
+					tweetData.setSentimentScore(0);
+					tweetData.setRetweetCount(status.getRetweetCount());
+					tweetData.setFavoriteCount(status.getFavoriteCount());
+
+					if (!status.isRetweet() && !twitterMetrics.isSentimentSet(tweetData)) {
+						String tweetTxt = status.getText();
+						if (status.getLang().equals("ja")) {
+							List<Token> tokenList = morphologicalAnalysis.getToken(tweetTxt);
+							int sentiScore = 0;
+							for (Token token : tokenList) {
+								String surface = token.getSurface();
+								int Score = sentiment.getSentimentScore(surface);
+								if (Score != 0) {
+									logger.debug("Found sentiment score match in tweetID  : " + status.getId()
+											+ " ; Word : " + surface + " Score : " + Score);
+								}
+								sentiScore += sentiment.getSentimentScore(surface);
+							}
+							tweetData.setSentimentScore(sentiScore);
+						}
+					}
+					twitterMetrics.setMetrics(tweetData);
 				}
 			}
 		}

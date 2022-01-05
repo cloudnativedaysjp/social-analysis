@@ -11,7 +11,10 @@ class TweetDataTest {
 
 	@BeforeEach
 	void setup() {
-		tweetData = new TweetData("11111", "aaaaa", true, 10);
+		tweetData = new TweetData("11111", "aaaaa", true);
+		tweetData.setSentimentScore(10);
+		tweetData.setRetweetCount(5);
+		tweetData.setFavoriteCount(2);
 	}
 
 	@Test
@@ -36,6 +39,18 @@ class TweetDataTest {
 	void getSentimentScore() {
 		Integer ans = 10;
 		assertEquals(ans, tweetData.getSentimentScore());
+	}
+
+	@Test
+	void getRetweetCount() {
+		Integer ans = 5;
+		assertEquals(ans, tweetData.getRetweetCount());
+	}
+
+	@Test
+	void getFavoriteCount() {
+		Integer ans = 2;
+		assertEquals(ans, tweetData.getFavoriteCount());
 	}
 
 }

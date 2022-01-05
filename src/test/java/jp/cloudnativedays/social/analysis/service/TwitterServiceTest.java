@@ -10,20 +10,21 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TwitterServiceTest {
 
-    private TwitterService twitterService;
+	private TwitterService twitterService;
 
-    private final ClassLoader classLoader = getClass().getClassLoader();
+	private final ClassLoader classLoader = getClass().getClassLoader();
 
-    private final File sentiFile = new File(classLoader.getResource("data/pn.csv.m3.120408.trim").getFile());
+	private final File sentiFile = new File(classLoader.getResource("data/pn.csv.m3.120408.trim").getFile());
 
-    @BeforeEach
-    void setUp() {
-        SentimentLoader sentimentLoader = new SentimentLoader(sentiFile);
-        Sentiment sentiment = new Sentiment(sentimentLoader);
+	@BeforeEach
+	void setUp() {
+		SentimentLoader sentimentLoader = new SentimentLoader(sentiFile);
+		Sentiment sentiment = new Sentiment(sentimentLoader);
 
-    }
+	}
 
-    @Test
-    void searchTwitterAndSetMetrics() {
-    }
+	@Test
+	void searchTwitterAndSetMetrics() {
+	}
+
 }
