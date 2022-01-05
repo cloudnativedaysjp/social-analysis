@@ -6,12 +6,19 @@ public class TweetData {
 
 	public String queryString;
 
+	public boolean isRetweet;
+
 	public Integer sentimentScore;
 
-	public TweetData(String tweetId, String queryString, Integer sentimentScore) {
+	public TweetData(String tweetId, String queryString, boolean isRetweet, Integer sentimentScore) {
 		this.tweetId = tweetId;
 		this.queryString = queryString;
+		this.isRetweet = isRetweet;
 		this.sentimentScore = sentimentScore;
+	}
+
+	public boolean isRetweet() {
+		return isRetweet;
 	}
 
 	public String getTweetId() {

@@ -68,9 +68,15 @@ public class TwitterService {
 						int sentiScore = 0;
 						for (Token token : tokenList) {
 							String surface = token.getSurface();
+							int Score = sentiment.getSentimentScore(surface);
+							if (Score != 0) {
+								logger.debug("Found sentiment score match in tweetID  : " + status.getId() + " ; Word : "
+										+ surface + " Score : " + Score);
+							}
 							sentiScore += sentiment.getSentimentScore(surface);
 						}
-						TweetData tweetData = new TweetData(Long.toString(status.getId()), queryString, sentiScore);
+						TweetData tweetData = new TweetData(Long.toString(status.getId()), queryString,
+								status.isRetweet(), sentiScore);
 						twitterMetrics.setSentimentMetrics(tweetData);
 					}
 				}

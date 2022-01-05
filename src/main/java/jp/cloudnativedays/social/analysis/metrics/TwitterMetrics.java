@@ -17,7 +17,9 @@ public class TwitterMetrics {
 
 	private static final String QUERY_STRING = "queryString";
 
-	private static final String TWEET_ID = "tweedId";
+	private static final String IS_RETWEET = "isRetweet";
+
+	private static final String TWEET_ID = "tweetId";
 
 	private final Map<String, Integer> gaugeCache = new HashMap<>();
 
@@ -28,7 +30,8 @@ public class TwitterMetrics {
 	public void setSentimentMetrics(TweetData tweetData) {
 		gaugeCache.put(tweetData.getTweetId(), tweetData.getSentimentScore());
 		meterRegistry.gauge(METRICS_NAME,
-				Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId())),
+				Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId()),
+						Tag.of(IS_RETWEET, String.valueOf(tweetData.isRetweet()))),
 				gaugeCache, g -> g.get(tweetData.getTweetId()));
 	}
 
