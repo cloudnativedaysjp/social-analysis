@@ -49,3 +49,19 @@ sentimentFile=data/pn.csv.m3.120408.trim # < update this
 ## Create twitter4j.properties file
 
 Create `twitter4j.properties` file based on the following [guide](https://twitter4j.org/en/configuration.html)
+
+# Running
+
+Execute the following command to run on local
+
+```
+./mvnw spring-boot:run
+```
+
+# Containerize
+
+Execute the following to containerize
+
+```
+./mvnw spring-boot:build-image
+```
