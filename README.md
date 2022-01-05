@@ -47,4 +47,4 @@ sentimentFile=data/pn.csv.m3.120408.trim # < update this
 
 ## Create twitter4j.properties file
 
-Create `twitter4j.properties` file based on the following [guide]()
+Create `twitter4j.properties` file based on the following [guide](https://twitter4j.org/en/configuration.html)
