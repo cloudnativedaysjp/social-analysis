@@ -70,8 +70,8 @@ public class TwitterService {
 							String surface = token.getSurface();
 							int Score = sentiment.getSentimentScore(surface);
 							if (Score != 0) {
-								logger.debug("Found sentiment score match in tweetID  : " + status.getId() + " ; Word : "
-										+ surface + " Score : " + Score);
+								logger.debug("Found sentiment score match in tweetID  : " + status.getId()
+										+ " ; Word : " + surface + " Score : " + Score);
 							}
 							sentiScore += sentiment.getSentimentScore(surface);
 						}
