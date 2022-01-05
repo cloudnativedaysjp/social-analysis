@@ -1,8 +1,7 @@
 package jp.cloudnativedays.social.analysis.system;
 
 import jp.cloudnativedays.social.analysis.service.TwitterService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
 import org.springframework.web.filter.OncePerRequestFilter;
 import twitter4j.TwitterException;
 
@@ -14,23 +13,23 @@ import java.io.IOException;
 
 public class MetricsFilter extends OncePerRequestFilter {
 
-    private TwitterService twitterService;
+	private final TwitterService twitterService;
 
-    public MetricsFilter(TwitterService twitterService) {
-        this.twitterService = twitterService;
-    }
+	public MetricsFilter(TwitterService twitterService) {
+		this.twitterService = twitterService;
+	}
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
-        try {
-            twitterService.searchTwitterAndSetMetrics();
-        } catch (TwitterException e) {
-            e.printStackTrace();
-        }
-        filterChain.doFilter(request, response);
-    }
+		try {
+			twitterService.searchTwitterAndSetMetrics();
+		}
+		catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		filterChain.doFilter(request, response);
+	}
+
 }

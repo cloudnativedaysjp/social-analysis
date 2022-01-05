@@ -8,18 +8,20 @@ import java.util.Map;
 @Service
 public class Sentiment {
 
-    SentimentLoader sentimentLoader;
-    Map<String, Integer> sentiMap;
+	SentimentLoader sentimentLoader;
 
-    public Sentiment(SentimentLoader sentimentLoader) {
-        this.sentimentLoader = sentimentLoader;
-        this.sentiMap = sentimentLoader.getSentimentMap();
-    }
+	Map<String, Integer> sentiMap;
 
-    public Integer getSentimentScore(String in){
-        if (sentiMap.containsKey(in)){
-            return sentiMap.get(in);
-        }
-        return 0;
-    }
+	public Sentiment(SentimentLoader sentimentLoader) {
+		this.sentimentLoader = sentimentLoader;
+		this.sentiMap = sentimentLoader.getSentimentMap();
+	}
+
+	public Integer getSentimentScore(String in) {
+		if (sentiMap.containsKey(in)) {
+			return sentiMap.get(in);
+		}
+		return 0;
+	}
+
 }

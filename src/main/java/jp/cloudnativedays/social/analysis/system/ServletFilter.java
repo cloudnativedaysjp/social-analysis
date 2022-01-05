@@ -10,18 +10,19 @@ import java.util.Arrays;
 @Component
 public class ServletFilter {
 
-    private TwitterService twitterService;
+	private final TwitterService twitterService;
 
-    public ServletFilter(TwitterService twitterService) {
-        this.twitterService = twitterService;
-    }
+	public ServletFilter(TwitterService twitterService) {
+		this.twitterService = twitterService;
+	}
 
-    @Bean
-    public FilterRegistrationBean filterRegistrationBean() {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new MetricsFilter(twitterService));
-        registrationBean.setUrlPatterns(Arrays.asList("/actuator/prometheus"));
+	@Bean
+	public FilterRegistrationBean filterRegistrationBean() {
+		FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+		registrationBean.setFilter(new MetricsFilter(twitterService));
+		registrationBean.setUrlPatterns(Arrays.asList("/actuator/prometheus"));
 
-        return registrationBean;
-    }
+		return registrationBean;
+	}
+
 }
