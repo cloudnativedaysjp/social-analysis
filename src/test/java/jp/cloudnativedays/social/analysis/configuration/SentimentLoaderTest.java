@@ -52,7 +52,7 @@ class SentimentLoaderTest {
 						score = -1;
 						break;
 					}
-					byte[] bytes = split[0].trim().getBytes();
+					byte[] bytes = split[0].trim().getBytes(StandardCharsets.UTF_8);
 					assertEquals(score, sentiMap.get(ByteBuffer.wrap(bytes)));
 				}
 				str = br.readLine();

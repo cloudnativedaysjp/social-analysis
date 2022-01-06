@@ -25,7 +25,7 @@ public class Sentiment {
 	}
 
 	public Integer getSentimentScore(String in) {
-		byte[] bytes = in.getBytes();
+		byte[] bytes = in.getBytes(StandardCharsets.UTF_8);
 		logger.debug("Performing scoring : Original String : " + in + " Encoded String :" + ByteBuffer.wrap(bytes));
 		if (sentiMap.containsKey(ByteBuffer.wrap(bytes))) {
 			return sentiMap.get(ByteBuffer.wrap(bytes));
