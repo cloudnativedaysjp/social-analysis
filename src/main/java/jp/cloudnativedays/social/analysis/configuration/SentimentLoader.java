@@ -43,7 +43,8 @@ public class SentimentLoader {
 						sentiScore = -1; // nの場合-1
 					}
 					String encodedString = Base64.getEncoder().encodeToString(split[0].trim().getBytes());
-					logger.trace("The score for word " + split[0].trim() + "encoded string is '" + encodedString + "' was saved as : " + sentiScore);
+					logger.trace("The score for word " + split[0].trim() + "encoded string is '" + encodedString
+							+ "' was saved as : " + sentiScore);
 
 					sentiMap.put(encodedString, sentiScore);
 				}

@@ -62,16 +62,13 @@ class SentimentLoaderTest {
 		}
 	}
 
-
 	@Test
-	void errorWhenFileDoesNotExist(){
+	void errorWhenFileDoesNotExist() {
 		assertThrows(IllegalStateException.class, () -> {
 			File dummy = new File("aaa.txt");
 			sentimentLoader = new SentimentLoader(dummy);
 			sentimentLoader.getSentimentMap();
 		});
 	}
-
-
 
 }
