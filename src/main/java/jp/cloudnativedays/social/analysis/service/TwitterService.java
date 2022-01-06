@@ -84,7 +84,7 @@ public class TwitterService {
 							int sentiScore = 0;
 							for (Token token : tokenList) {
 								String surface = token.getSurface();
-								logger.debug("Surface is : "+ surface);
+								logger.debug("Surface is : " + surface);
 								int Score = sentiment.getSentimentScore(surface);
 								if (Score != 0) {
 									logger.debug("Found sentiment score match in tweetID  : " + status.getId()
