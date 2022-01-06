@@ -1,6 +1,5 @@
 package jp.cloudnativedays.social.analysis.system;
 
-import jp.cloudnativedays.social.analysis.SocialAnalysisApplication;
 import jp.cloudnativedays.social.analysis.service.TwitterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +10,7 @@ import twitter4j.TwitterException;
 @Component
 public class ScheduledTwitterService {
 
-	private static final Logger logger = LoggerFactory.getLogger(SocialAnalysisApplication.class);
+	private static final Logger logger = LoggerFactory.getLogger(ScheduledTwitterService.class);
 
 	private final TwitterService twitterService;
 

@@ -1,5 +1,7 @@
 package jp.cloudnativedays.social.analysis.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +14,8 @@ import java.util.Map;
 
 @Configuration
 public class SentimentLoader {
+
+	private static final Logger logger = LoggerFactory.getLogger(SentimentLoader.class);
 
 	private final File sentimentFile;
 
@@ -36,6 +40,7 @@ public class SentimentLoader {
 					else if (emotion.equals("n")) {
 						sentiScore = -1; // nの場合-1
 					}
+					logger.debug("The score for word " + split[0].trim() + " was saved as : " + sentiScore);
 					sentiMap.put(split[0].trim(), sentiScore);
 				}
 				str = br.readLine();
