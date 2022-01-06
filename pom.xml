@@ -84,6 +84,13 @@
                     <image>
                         <name>ghcr.io/cloudnativedaysjp/${project.artifactId}:${project.version}</name>
                     </image>
+                    <docker>
+                        <publishRegistry>
+                            <url>https://ghcr.io</url>
+                            <username>${env.GITHUB_USERNAME}</username>
+                            <oassword>${env.GITHUB_PASSWORD}</oassword>
+                        </publishRegistry>
+                    </docker>
                 </configuration>
             </plugin>
         </plugins>

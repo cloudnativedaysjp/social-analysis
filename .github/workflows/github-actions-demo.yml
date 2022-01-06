@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: mhoshi-vm
-          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       - name: Set up JDK 11
         uses: actions/setup-java@v2
@@ -23,4 +17,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven
+        env:
+          GITHUB_USERNAME: mhoshi-vm
+          GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: mvn spring-boot:build-image -Dspring-boot.build-image.publish=true
