@@ -15,7 +15,6 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @Configuration
 public class SentimentLoader {
 
@@ -45,10 +44,10 @@ public class SentimentLoader {
 						sentiScore = -1; // nの場合-1
 					}
 
-					//https://stackoverflow.com/questions/1058149/using-a-byte-array-as-map-key
+					// https://stackoverflow.com/questions/1058149/using-a-byte-array-as-map-key
 					byte[] bytes = split[0].trim().getBytes();
-					logger.trace("The score for word " + split[0].trim() + "encoded string is '" + ByteBuffer.wrap(bytes)
-							+ "' was saved as : " + sentiScore);
+					logger.trace("The score for word " + split[0].trim() + "encoded string is '"
+							+ ByteBuffer.wrap(bytes) + "' was saved as : " + sentiScore);
 
 					sentiMap.put(ByteBuffer.wrap(bytes), sentiScore);
 				}
