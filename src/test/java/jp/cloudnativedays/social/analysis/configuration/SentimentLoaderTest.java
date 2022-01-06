@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class SentimentLoaderTest {
 
@@ -31,7 +31,9 @@ class SentimentLoaderTest {
 		Map<ByteBuffer, Integer> sentiMap = sentimentLoader.getSentimentMap();
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(sentiFile));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(new FileInputStream(sentiFile), StandardCharsets.UTF_8));
+
 			String str = br.readLine();
 			while (str != null) {
 				String[] split = str.split("\t");

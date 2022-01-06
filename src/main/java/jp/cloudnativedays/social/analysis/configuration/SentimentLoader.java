@@ -5,13 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +26,9 @@ public class SentimentLoader {
 		Map<ByteBuffer, Integer> sentiMap = new HashMap<>();
 
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(sentimentFile));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(new FileInputStream(sentimentFile), StandardCharsets.UTF_8));
+
 			String str = br.readLine();
 			while (str != null) {
 				String[] split = str.split("\t");
