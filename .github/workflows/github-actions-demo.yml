@@ -18,6 +18,6 @@ jobs:
           distribution: 'adopt'
       - name: Build with Maven
         env:
-          GITHUB_USERNAME: mhoshi-vm
+          GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         run: mvn spring-boot:build-image -Dspring-boot.build-image.publish=true

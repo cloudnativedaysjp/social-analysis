@@ -11,16 +11,10 @@ class TweetDataTest {
 
 	@BeforeEach
 	void setup() {
-		tweetData = new TweetData("11111", "aaaaa", true);
+		tweetData = new TweetData("11111", "aaaaa", "john");
 		tweetData.setSentimentScore(10);
 		tweetData.setRetweetCount(5);
 		tweetData.setFavoriteCount(2);
-	}
-
-	@Test
-	void isRetweet() {
-		boolean ans = true;
-		assertEquals(ans, tweetData.isRetweet());
 	}
 
 	@Test
@@ -33,6 +27,12 @@ class TweetDataTest {
 	void getQueryString() {
 		String ans = "aaaaa";
 		assertEquals(ans, tweetData.getQueryString());
+	}
+
+	@Test
+	void getUsername() {
+		String ans = "john";
+		assertEquals(ans, tweetData.getUsername());
 	}
 
 	@Test

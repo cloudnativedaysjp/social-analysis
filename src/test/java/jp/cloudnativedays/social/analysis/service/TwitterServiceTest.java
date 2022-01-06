@@ -54,11 +54,14 @@ class TwitterServiceTest {
 	@Test
 	void searchPositiveTwitterAndSetMetrics() throws TwitterException {
 		List<Status> statuses = new ArrayList<>();
+		User user = mock(User.class);
+		when(user.getScreenName()).thenReturn("tanaka");
 
 		Status positiveStatus = mock(Status.class);
 		when(positiveStatus.getId()).thenReturn(100L);
 		when(positiveStatus.getText()).thenReturn("かれはていねいです");
 		when(positiveStatus.getLang()).thenReturn("ja");
+		when(positiveStatus.getUser()).thenReturn(user);
 		when(positiveStatus.isRetweet()).thenReturn(false);
 		when(positiveStatus.getRetweetCount()).thenReturn(10);
 		when(positiveStatus.getFavoriteCount()).thenReturn(20);
@@ -87,11 +90,14 @@ class TwitterServiceTest {
 	@Test
 	void searchNegativeTwitterAndSetMetrics() throws TwitterException {
 		List<Status> statuses = new ArrayList<>();
+		User user = mock(User.class);
+		when(user.getScreenName()).thenReturn("tanaka");
 
 		Status positiveStatus = mock(Status.class);
 		when(positiveStatus.getId()).thenReturn(100L);
 		when(positiveStatus.getText()).thenReturn("かれはずぼらです");
 		when(positiveStatus.getLang()).thenReturn("ja");
+		when(positiveStatus.getUser()).thenReturn(user);
 		when(positiveStatus.isRetweet()).thenReturn(false);
 		when(positiveStatus.getRetweetCount()).thenReturn(10);
 		when(positiveStatus.getFavoriteCount()).thenReturn(20);

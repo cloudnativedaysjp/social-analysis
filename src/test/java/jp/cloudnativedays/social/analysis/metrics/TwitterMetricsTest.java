@@ -23,15 +23,15 @@ class TwitterMetricsTest {
 
 	@BeforeEach
 	public void setup() {
-		tweetData1 = new TweetData("11111", "aaaaa", true);
+		tweetData1 = new TweetData("11111", "aaaaa", "john");
 		tweetData1.setSentimentScore(10);
 		tweetData1.setRetweetCount(5);
 		tweetData1.setFavoriteCount(2);
-		tweetData2 = new TweetData("22222", "bbbbb", false);
+		tweetData2 = new TweetData("22222", "bbbbb", "jane");
 		tweetData2.setSentimentScore(-10);
 		tweetData2.setRetweetCount(-5);
 		tweetData2.setFavoriteCount(-2);
-		tweetData3 = new TweetData("33333", "ccccc", false);
+		tweetData3 = new TweetData("33333", "ccccc", "doe");
 
 		twitterMetrics.setMetrics(tweetData1);
 		twitterMetrics.setMetrics(tweetData2);
@@ -55,7 +55,7 @@ class TwitterMetricsTest {
 	void setSentimentMetricsTwice() {
 		String metricsName = "social.twitter.sentiment";
 		// Create tweetData4 which is same with tweetData1 but has different sentiment
-		TweetData tweetData4 = new TweetData("11111", "aaaaa", true);
+		TweetData tweetData4 = new TweetData("11111", "aaaaa", "john");
 		tweetData4.setSentimentScore(20);
 		tweetData4.setRetweetCount(5);
 		tweetData4.setFavoriteCount(2);
@@ -92,7 +92,7 @@ class TwitterMetricsTest {
 	void setRetweetCountsTwice() {
 		String metricsName = "social.twitter.retweets";
 		// Create tweetData4 which is same with tweetData1 but has different retweets
-		TweetData tweetData4 = new TweetData("11111", "aaaaa", true);
+		TweetData tweetData4 = new TweetData("11111", "aaaaa", "john");
 		tweetData4.setSentimentScore(10);
 		tweetData4.setRetweetCount(10);
 		tweetData4.setFavoriteCount(2);
@@ -122,7 +122,7 @@ class TwitterMetricsTest {
 	void setFavoriteCountsTwice() {
 		String metricsName = "social.twitter.favorites";
 		// Create tweetData4 which is same with tweetData1 but has different favorites
-		TweetData tweetData4 = new TweetData("11111", "aaaaa", true);
+		TweetData tweetData4 = new TweetData("11111", "aaaaa", "john");
 		tweetData4.setSentimentScore(10);
 		tweetData4.setRetweetCount(5);
 		tweetData4.setFavoriteCount(1);

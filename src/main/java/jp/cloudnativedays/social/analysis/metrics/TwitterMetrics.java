@@ -18,6 +18,8 @@ public class TwitterMetrics {
 
 	private static final String QUERY_STRING = "queryString";
 
+	private static final String USER_NAME = "screenName";
+
 	private static final String TWEET_ID = "tweetId";
 
 	private final Map<String, Integer> sentimentGaugeCache = new HashMap<>();
@@ -40,7 +42,8 @@ public class TwitterMetrics {
 		if (!isSentimentSet(tweetData)) {
 			sentimentGaugeCache.put(tweetData.getTweetId(), tweetData.getSentimentScore());
 			meterRegistry.gauge(METRICS_PREFIX + "sentiment",
-					Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId())),
+					Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId()),
+							Tag.of(USER_NAME, tweetData.getUsername())),
 					sentimentGaugeCache, g -> g.get(tweetData.getTweetId()));
 		}
 	}
@@ -58,14 +61,16 @@ public class TwitterMetrics {
 	public void setRetweetCounts(TweetData tweetData) {
 		retweetGaugeCache.put(tweetData.getTweetId(), tweetData.getRetweetCount());
 		meterRegistry.gauge(METRICS_PREFIX + "retweets",
-				Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId())),
+				Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId()),
+						Tag.of(USER_NAME, tweetData.getUsername())),
 				retweetGaugeCache, g -> g.get(tweetData.getTweetId()));
 	}
 
 	public void setFavoriteCounts(TweetData tweetData) {
 		favoriteGaugeCache.put(tweetData.getTweetId(), tweetData.getFavoriteCount());
 		meterRegistry.gauge(METRICS_PREFIX + "favorites",
-				Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId())),
+				Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId()),
+						Tag.of(USER_NAME, tweetData.getUsername())),
 				favoriteGaugeCache, g -> g.get(tweetData.getTweetId()));
 	}
 

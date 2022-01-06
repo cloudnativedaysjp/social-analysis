@@ -6,7 +6,7 @@ public class TweetData {
 
 	public String queryString;
 
-	public boolean isRetweet;
+	public String username;
 
 	public Integer sentimentScore;
 
@@ -14,14 +14,11 @@ public class TweetData {
 
 	public Integer favoriteCount;
 
-	public TweetData(String tweetId, String queryString, boolean isRetweet) {
+	public TweetData(String tweetId, String queryString, String username) {
 		this.tweetId = tweetId;
 		this.queryString = queryString;
-		this.isRetweet = isRetweet;
-	}
+		this.username = username;
 
-	public boolean isRetweet() {
-		return isRetweet;
 	}
 
 	public String getTweetId() {
@@ -30,6 +27,10 @@ public class TweetData {
 
 	public String getQueryString() {
 		return queryString;
+	}
+
+	public String getUsername() {
+		return username;
 	}
 
 	public Integer getSentimentScore() {

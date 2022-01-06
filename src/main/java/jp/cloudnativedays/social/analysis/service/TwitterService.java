@@ -70,7 +70,8 @@ public class TwitterService {
 					if (status.isRetweet()) {
 						continue;
 					}
-					TweetData tweetData = new TweetData(Long.toString(status.getId()), queryString, status.isRetweet());
+					TweetData tweetData = new TweetData(Long.toString(status.getId()), queryString,
+							status.getUser().getScreenName());
 					tweetData.setSentimentScore(0);
 					tweetData.setRetweetCount(status.getRetweetCount());
 					tweetData.setFavoriteCount(status.getFavoriteCount());
