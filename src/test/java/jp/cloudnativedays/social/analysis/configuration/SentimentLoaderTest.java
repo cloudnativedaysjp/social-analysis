@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 
@@ -49,7 +50,8 @@ class SentimentLoaderTest {
 						score = -1;
 						break;
 					}
-					assertEquals(score, sentiMap.get(split[0].trim()));
+					String encodedString = Base64.getEncoder().encodeToString(split[0].trim().getBytes());
+					assertEquals(score, sentiMap.get(encodedString));
 				}
 				str = br.readLine();
 			}

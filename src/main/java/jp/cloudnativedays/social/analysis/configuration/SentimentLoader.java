@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,11 +42,14 @@ public class SentimentLoader {
 					else if (emotion.equals("n")) {
 						sentiScore = -1; // nの場合-1
 					}
-					logger.debug("The score for word " + split[0].trim() + " was saved as : " + sentiScore);
-					sentiMap.put(split[0].trim(), sentiScore);
+					String encodedString = Base64.getEncoder().encodeToString(split[0].trim().getBytes());
+					logger.trace("The score for word " + split[0].trim() + "encoded string is '" + encodedString + "' was saved as : " + sentiScore);
+
+					sentiMap.put(encodedString, sentiScore);
 				}
 				str = br.readLine();
 			}
+			logger.debug("The size of dictionary is " + sentiMap.size());
 			br.close();
 		}
 		catch (IOException e) {
