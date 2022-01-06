@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public class Sentiment {
 
 	SentimentLoader sentimentLoader;
 
-	Map<String, Integer> sentiMap;
+	Map<ByteBuffer, Integer> sentiMap;
 
 	public Sentiment(SentimentLoader sentimentLoader) {
 		this.sentimentLoader = sentimentLoader;
@@ -23,10 +25,10 @@ public class Sentiment {
 	}
 
 	public Integer getSentimentScore(String in) {
-		String encodedString = Base64.getEncoder().encodeToString(in.getBytes());
-		logger.debug("Performing scoring : Original String : " + in + " Encoded String :" + encodedString);
-		if (sentiMap.containsKey(encodedString)) {
-			return sentiMap.get(encodedString);
+		byte[] bytes = in.getBytes();
+		logger.debug("Performing scoring : Original String : " + in + " Encoded String :" + ByteBuffer.wrap(bytes));
+		if (sentiMap.containsKey(ByteBuffer.wrap(bytes))) {
+			return sentiMap.get(ByteBuffer.wrap(bytes));
 		}
 		return 0;
 	}

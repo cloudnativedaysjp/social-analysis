@@ -9,10 +9,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+
 
 @Configuration
 public class SentimentLoader {
@@ -25,8 +27,8 @@ public class SentimentLoader {
 		this.sentimentFile = sentimentFile;
 	}
 
-	public Map<String, Integer> getSentimentMap() {
-		Map<String, Integer> sentiMap = new HashMap<>();
+	public Map<ByteBuffer, Integer> getSentimentMap() {
+		Map<ByteBuffer, Integer> sentiMap = new HashMap<>();
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(sentimentFile));
@@ -42,11 +44,13 @@ public class SentimentLoader {
 					else if (emotion.equals("n")) {
 						sentiScore = -1; // nの場合-1
 					}
-					String encodedString = Base64.getEncoder().encodeToString(split[0].trim().getBytes());
-					logger.trace("The score for word " + split[0].trim() + "encoded string is '" + encodedString
+
+					//https://stackoverflow.com/questions/1058149/using-a-byte-array-as-map-key
+					byte[] bytes = split[0].trim().getBytes();
+					logger.trace("The score for word " + split[0].trim() + "encoded string is '" + ByteBuffer.wrap(bytes)
 							+ "' was saved as : " + sentiScore);
 
-					sentiMap.put(encodedString, sentiScore);
+					sentiMap.put(ByteBuffer.wrap(bytes), sentiScore);
 				}
 				str = br.readLine();
 			}

@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
@@ -26,7 +28,7 @@ class SentimentLoaderTest {
 
 	@Test
 	void getSentimentMap() {
-		Map<String, Integer> sentiMap = sentimentLoader.getSentimentMap();
+		Map<ByteBuffer, Integer> sentiMap = sentimentLoader.getSentimentMap();
 
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(sentiFile));
@@ -50,8 +52,8 @@ class SentimentLoaderTest {
 						score = -1;
 						break;
 					}
-					String encodedString = Base64.getEncoder().encodeToString(split[0].trim().getBytes());
-					assertEquals(score, sentiMap.get(encodedString));
+					byte[] bytes = split[0].trim().getBytes();
+					assertEquals(score, sentiMap.get(ByteBuffer.wrap(bytes)));
 				}
 				str = br.readLine();
 			}
