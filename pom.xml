@@ -82,7 +82,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <image>
-                        <name>ghcr.io/cloudnativedaysjp/${project.artifactId}:${project.version}</name>
+                        <name>ghcr.io/mhoshi-vm/${project.artifactId}:${project.version}</name>
                     </image>
                     <docker>
                         <publishRegistry>
