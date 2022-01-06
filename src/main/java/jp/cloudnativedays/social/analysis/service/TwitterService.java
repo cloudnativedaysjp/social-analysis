@@ -54,7 +54,7 @@ public class TwitterService {
 	public void searchTwitterAndSetMetrics() throws TwitterException {
 
 		for (String queryString : queryStrings) {
-			Query query = new Query(queryString);
+			Query query = new Query(queryString + " -filter:retweets");
 			boolean hasNext = true;
 
 			while (hasNext) {
