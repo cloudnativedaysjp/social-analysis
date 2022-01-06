@@ -42,7 +42,6 @@ public class SentimentLoader {
 						sentiScore = -1; // nの場合-1
 					}
 
-					// https://stackoverflow.com/questions/1058149/using-a-byte-array-as-map-key
 					byte[] bytes = split[0].trim().getBytes(StandardCharsets.UTF_8);
 					logger.trace("The score for word " + split[0].trim() + "encoded string is '"
 							+ ByteBuffer.wrap(bytes) + "' was saved as : " + sentiScore);
