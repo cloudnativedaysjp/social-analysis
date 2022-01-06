@@ -8,7 +8,6 @@ import jp.cloudnativedays.social.analysis.metrics.TwitterMetrics;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,10 +16,10 @@ import twitter4j.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,7 +37,8 @@ class TwitterServiceTest {
 
 	private final ClassLoader classLoader = getClass().getClassLoader();
 
-	private final File sentiFile = new File(classLoader.getResource("data/test-data.trim").getFile());
+	private final File sentiFile = new File(
+			Objects.requireNonNull(classLoader.getResource("data/test-data.trim")).getFile());
 
 	@BeforeEach
 	void setUp() {

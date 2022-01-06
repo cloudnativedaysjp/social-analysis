@@ -71,8 +71,8 @@ class TwitterMetricsTest {
 
 	@Test
 	void isSentimentSet() {
-		assertEquals(true, twitterMetrics.isSentimentSet(tweetData1));
-		assertEquals(false, twitterMetrics.isSentimentSet(tweetData3));
+		assertTrue(twitterMetrics.isSentimentSet(tweetData1));
+		assertFalse(twitterMetrics.isSentimentSet(tweetData3));
 	}
 
 	@Test

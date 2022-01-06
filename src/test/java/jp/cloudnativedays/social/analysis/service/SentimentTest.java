@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,7 +15,8 @@ class SentimentTest {
 
 	private final ClassLoader classLoader = getClass().getClassLoader();
 
-	private final File sentiFile = new File(classLoader.getResource("data/test-data.trim").getFile());
+	private final File sentiFile = new File(
+			Objects.requireNonNull(classLoader.getResource("data/test-data.trim")).getFile());
 
 	@BeforeEach
 	void setUp() {
