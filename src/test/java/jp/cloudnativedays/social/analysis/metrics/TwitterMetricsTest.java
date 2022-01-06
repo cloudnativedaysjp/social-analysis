@@ -49,6 +49,26 @@ class TwitterMetricsTest {
 		assertEquals(gauge2.value(), -10);
 	}
 
+	// Since calculating sentiment is a heavy task we do not perform this when the metrics
+	// is already created.
+	@Test
+	void setSentimentMetricsTwice() {
+		String metricsName = "social.twitter.sentiment";
+		// Create tweetData4 which is same with tweetData1 but has different sentiment
+		TweetData tweetData4 = new TweetData("11111", "aaaaa", true);
+		tweetData4.setSentimentScore(20);
+		tweetData4.setRetweetCount(5);
+		tweetData4.setFavoriteCount(2);
+
+		twitterMetrics.setMetrics(tweetData4);
+
+		Gauge gauge1 = registry.get(metricsName).tags("tweetId", "11111").gauge();
+
+		// Should equal to twitterdata1(10) not twitterdata4(20)
+		assertEquals(gauge1.value(), 10);
+
+	}
+
 	@Test
 	void isSentimentSet() {
 		assertEquals(true, twitterMetrics.isSentimentSet(tweetData1));
@@ -69,6 +89,24 @@ class TwitterMetricsTest {
 	}
 
 	@Test
+	void setRetweetCountsTwice() {
+		String metricsName = "social.twitter.retweets";
+		// Create tweetData4 which is same with tweetData1 but has different retweets
+		TweetData tweetData4 = new TweetData("11111", "aaaaa", true);
+		tweetData4.setSentimentScore(10);
+		tweetData4.setRetweetCount(10);
+		tweetData4.setFavoriteCount(2);
+
+		twitterMetrics.setMetrics(tweetData4);
+
+		Gauge gauge1 = registry.get(metricsName).tags("tweetId", "11111").gauge();
+
+		// Should equal to twitterdata4(10) not twitterdata1(5)
+		assertEquals(gauge1.value(), 10);
+
+	}
+
+	@Test
 	void setFavoriteCounts() {
 		String metricsName = "social.twitter.favorites";
 
@@ -78,6 +116,24 @@ class TwitterMetricsTest {
 		assertEquals(registry.get(metricsName).meters().size(), 2);
 		assertEquals(gauge1.value(), 2);
 		assertEquals(gauge2.value(), -2);
+	}
+
+	@Test
+	void setFavoriteCountsTwice() {
+		String metricsName = "social.twitter.favorites";
+		// Create tweetData4 which is same with tweetData1 but has different favorites
+		TweetData tweetData4 = new TweetData("11111", "aaaaa", true);
+		tweetData4.setSentimentScore(10);
+		tweetData4.setRetweetCount(5);
+		tweetData4.setFavoriteCount(1);
+
+		twitterMetrics.setMetrics(tweetData4);
+
+		Gauge gauge1 = registry.get(metricsName).tags("tweetId", "11111").gauge();
+
+		// Should equal to twitterdata4(1) not twitterdata1(2)
+		assertEquals(gauge1.value(), 1);
+
 	}
 
 }

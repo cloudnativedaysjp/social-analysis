@@ -14,7 +14,7 @@ class SentimentLoaderTest {
 
 	private final ClassLoader classLoader = getClass().getClassLoader();
 
-	private final File sentiFile = new File(classLoader.getResource("data/pn.csv.m3.120408.trim").getFile());
+	private final File sentiFile = new File(classLoader.getResource("data/test-data.trim").getFile());
 
 	@BeforeEach
 	void setUp() {

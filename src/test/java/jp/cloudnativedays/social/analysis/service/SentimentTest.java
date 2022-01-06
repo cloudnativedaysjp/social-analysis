@@ -14,7 +14,7 @@ class SentimentTest {
 
 	private final ClassLoader classLoader = getClass().getClassLoader();
 
-	private final File sentiFile = new File(classLoader.getResource("data/pn.csv.m3.120408.trim").getFile());
+	private final File sentiFile = new File(classLoader.getResource("data/test-data.trim").getFile());
 
 	@BeforeEach
 	void setUp() {
@@ -24,9 +24,9 @@ class SentimentTest {
 
 	@Test
 	void getSentimentScore() {
-		final String positiveString = "あざやか";
-		final String negativeString = "あだおろそか";
-		final String neutralString = "あなたがた";
+		final String positiveString = "ていねい";
+		final String negativeString = "ずぼら";
+		final String neutralString = "はにかみ";
 		final String posNegString = "ぐうたら";
 		assertEquals(1, sentiment.getSentimentScore(positiveString));
 		assertEquals(-1, sentiment.getSentimentScore(negativeString));

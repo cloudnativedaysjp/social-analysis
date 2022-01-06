@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import com.atilika.kuromoji.ipadic.Token;
 import jp.cloudnativedays.social.analysis.metrics.TwitterMetrics;
 import jp.cloudnativedays.social.analysis.model.TweetData;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import twitter4j.*;
@@ -22,23 +23,33 @@ public class TwitterService {
 
 	private final TwitterMetrics twitterMetrics;
 
+	private final String[] queryStrings;
+
 	private Twitter twitter;
 
+	@Autowired
 	public TwitterService(Sentiment sentiment, MorphologicalAnalysis morphologicalAnalysis,
-			TwitterMetrics twitterMetrics) {
+			TwitterMetrics twitterMetrics, @Value("${twitter.query}") String[] queryStrings) {
 		this.sentiment = sentiment;
 		this.morphologicalAnalysis = morphologicalAnalysis;
 		this.twitterMetrics = twitterMetrics;
 		this.twitter = getTwitterInstance();
+		this.queryStrings = queryStrings;
+	}
+
+	public TwitterService(Sentiment sentiment, MorphologicalAnalysis morphologicalAnalysis,
+			TwitterMetrics twitterMetrics, @Value("${twitter.query}") String[] queryStrings, Twitter twitter) {
+		this.sentiment = sentiment;
+		this.morphologicalAnalysis = morphologicalAnalysis;
+		this.twitterMetrics = twitterMetrics;
+		this.twitter = twitter;
+		this.queryStrings = queryStrings;
 	}
 
 	private Twitter getTwitterInstance() {
 		twitter = TwitterFactory.getSingleton();
 		return twitter;
 	}
-
-	@Value("${twitter.query}")
-	String[] queryStrings;
 
 	public void searchTwitterAndSetMetrics() throws TwitterException {
 
@@ -71,6 +82,7 @@ public class TwitterService {
 							int sentiScore = 0;
 							for (Token token : tokenList) {
 								String surface = token.getSurface();
+								System.out.println(surface);
 								int Score = sentiment.getSentimentScore(surface);
 								if (Score != 0) {
 									logger.debug("Found sentiment score match in tweetID  : " + status.getId()
