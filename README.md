@@ -6,18 +6,24 @@ This is a simple Java Spring Boot application to perform social analysis. The fo
 - [Spring Boot Actuator](https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html)  
 - [Kuromoji](https://www.atilika.com/ja/kuromoji/)  
 - [Twitter4j](https://twitter4j.org/en/index.html)
+- [java-slack-sdk](https://github.com/slackapi/java-slack-sdk)
 
 # Features
-
+- Export metrics via Prometheus format
+## Twitter Features
 - Search Twitter tweets based on specified query
 - Collect retweet and favorite counts  
 - Simple scoring based on noun included in the tweet text
-- Export metrics via Prometheus format
+## Slack Features
+- Collect number of messages and convert to countner
 
 # Metrics Example   
 
+Metrics is available at `http://:8080/actuator/prometheus`. 
 
-Metrics is available at `http://:8080/actuator/prometheus`. The following labels will be included for each metric.   
+## Twitter Example
+
+The following labels will be included for each metric.   
 
 - `queryString`The query string used to search tweet
 - `tweetId`Individual tweet id
@@ -34,11 +40,25 @@ social_twitter_favorites{queryString="#o11y2022",screenName="cloudnativedays",tw
 social_twitter_favorites{queryString="#o11y2022",screenName="cloudnativedays",tweetId="1476023933744910340",} 9.0
 ```
 
+## Slack Example
+
+The following labels will be included for each metric.
+
+- `workspaceName`The workspace name
+- `channelName`The channel name
+- `screenName` Screen name of the slack user
+
+```
+social_slack_messages_total{channelName="o11y-team-notification",screenName="machih",workspaceName="cloudnativedays",} 3.0
+```
+
+
 # Prerequisite
 
 - Java 8 (or above)
 - [Japanese Sentiment Polarity Dictionary](https://www.cl.ecei.tohoku.ac.jp/Open_Resources-Japanese_Sentiment_Polarity_Dictionary.html)
 - [Twitter API account](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api)
+- [Slack App Registry](https://api.slack.com/apps)
 
 ## Download and placing sentiment dictionary
 
@@ -52,6 +72,15 @@ sentimentFile=data/pn.csv.m3.120408.trim # < update this
 ## Create twitter4j.properties file
 
 Create `twitter4j.properties` file based on the following [guide](https://twitter4j.org/en/configuration.html)
+
+## Set up Apps Environment values Slack API Token
+
+The following values need to be defined in environment values
+
+```
+SLACK_APP_TOKEN = the slack app token (xapp-)
+SLACK_BOT_TOKEN = the slack bot token (xoxb-)
+```
 
 # Running
 

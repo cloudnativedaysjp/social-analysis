@@ -18,7 +18,7 @@ public class SentimentLoader {
 
 	private final File sentimentFile;
 
-	public SentimentLoader(@Value("${sentimentFile}") File sentimentFile) {
+	public SentimentLoader(@Value("${sentiment.file}") File sentimentFile) {
 		this.sentimentFile = sentimentFile;
 	}
 
