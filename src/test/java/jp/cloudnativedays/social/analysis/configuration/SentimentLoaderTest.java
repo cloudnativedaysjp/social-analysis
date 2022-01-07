@@ -28,42 +28,20 @@ class SentimentLoaderTest {
 
 	@Test
 	void getSentimentMap() {
+		byte[] bytes;
 		Map<ByteBuffer, Integer> sentiMap = sentimentLoader.getSentimentMap();
 
-		try {
-			BufferedReader br = new BufferedReader(
-					new InputStreamReader(new FileInputStream(sentiFile), StandardCharsets.UTF_8));
+		bytes = "ていねい".getBytes(StandardCharsets.UTF_8);
+		assertEquals(1, sentiMap.get(ByteBuffer.wrap(bytes)));
 
-			String str = br.readLine();
-			while (str != null) {
-				String[] split = str.split("\t");
-				if (split.length > 1) {
-					int score = 0;
+		bytes = "ずぼら".getBytes(StandardCharsets.UTF_8);
+		assertEquals(-1, sentiMap.get(ByteBuffer.wrap(bytes)));
 
-					switch (split[1].trim()) {
-					case "e":
-						score = 0;
-						break;
-					case "?p?n":
-						score = 0;
-						break;
-					case "p":
-						score = 1;
-						break;
-					case "n":
-						score = -1;
-						break;
-					}
-					byte[] bytes = split[0].trim().getBytes(StandardCharsets.UTF_8);
-					assertEquals(score, sentiMap.get(ByteBuffer.wrap(bytes)));
-				}
-				str = br.readLine();
-			}
-			br.close();
-		}
-		catch (IOException e) {
-			throw new IllegalStateException(e.toString());
-		}
+		bytes = "はにかみ".getBytes(StandardCharsets.UTF_8);
+		assertEquals(0, sentiMap.get(ByteBuffer.wrap(bytes)));
+
+		bytes = "ぐうたら".getBytes(StandardCharsets.UTF_8);
+		assertEquals(0, sentiMap.get(ByteBuffer.wrap(bytes)));
 	}
 
 	@Test

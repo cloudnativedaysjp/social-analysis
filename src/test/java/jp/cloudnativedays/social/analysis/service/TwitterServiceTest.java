@@ -123,4 +123,61 @@ class TwitterServiceTest {
 
 	}
 
+	@Test
+	void searchTwitterAndSetMetricsWithNextQuery() throws TwitterException {
+
+		Query dummyQuery1 = new Query("dummy" + " -filter:retweets");
+		Query dummyQuery2 = new Query("dummy2" + " -filter:retweets");
+
+		List<Status> statusesLoop1 = new ArrayList<>();
+		User user1 = mock(User.class);
+		when(user1.getScreenName()).thenReturn("tanaka");
+
+		Status statusLoop1 = mock(Status.class);
+		when(statusLoop1.getId()).thenReturn(100L);
+		when(statusLoop1.getText()).thenReturn("かれはぐうたらです");
+		when(statusLoop1.getLang()).thenReturn("ja");
+		when(statusLoop1.getUser()).thenReturn(user1);
+		when(statusLoop1.isRetweet()).thenReturn(false);
+		when(statusLoop1.getRetweetCount()).thenReturn(10);
+		when(statusLoop1.getFavoriteCount()).thenReturn(20);
+
+		statusesLoop1.add(statusLoop1);
+
+		List<Status> statusesLoop2 = new ArrayList<>();
+		User user2 = mock(User.class);
+		when(user2.getScreenName()).thenReturn("nakata");
+
+		Status statusLoop2 = mock(Status.class);
+		when(statusLoop2.getId()).thenReturn(200L);
+		when(statusLoop2.getText()).thenReturn("かれははにかみです");
+		when(statusLoop2.getLang()).thenReturn("ja");
+		when(statusLoop2.getUser()).thenReturn(user2);
+		when(statusLoop2.isRetweet()).thenReturn(false);
+		when(statusLoop2.getRetweetCount()).thenReturn(20);
+		when(statusLoop2.getFavoriteCount()).thenReturn(5);
+
+		statusesLoop2.add(statusLoop2);
+
+		QueryResult queryResult2 = mock(QueryResult.class);
+		when(queryResult2.getTweets()).thenReturn(statusesLoop2);
+		when(queryResult2.hasNext()).thenReturn(false);
+		when(queryResult2.nextQuery()).thenReturn(null);
+
+		QueryResult queryResult1 = mock(QueryResult.class);
+		when(queryResult1.getTweets()).thenReturn(statusesLoop1);
+		when(queryResult1.hasNext()).thenReturn(true);
+		when(queryResult1.nextQuery()).thenReturn(dummyQuery2);
+
+		Mockito.when(twitter.search(dummyQuery1)).thenReturn(queryResult1);
+		Mockito.when(twitter.search(dummyQuery2)).thenReturn(queryResult2);
+
+		twitterService.searchTwitterAndSetMetrics();
+
+		assertEquals(2, registry.get("social.twitter.sentiment").meters().size());
+		assertEquals(2, registry.get("social.twitter.retweets").meters().size());
+		assertEquals(2, registry.get("social.twitter.favorites").meters().size());
+
+	}
+
 }
