@@ -20,7 +20,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource(properties = { "twitter.enabled=false", "slack.app.token=dummy", "slack.bot.token=dummy", "sentiment.file=data/test-data.trim" })
+@TestPropertySource(properties = { "twitter.enabled=false", "slack.app.token=dummy", "slack.bot.token=dummy",
+		"sentiment.file=data/test-data.trim" })
 class WfSpanCustomizerTest {
 
 	@Autowired
