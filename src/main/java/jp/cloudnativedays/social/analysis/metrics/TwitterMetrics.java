@@ -74,4 +74,8 @@ public class TwitterMetrics {
 				favoriteGaugeCache, g -> g.get(tweetData.getTweetId()));
 	}
 
+	public void setExecutionTime(long i) {
+		meterRegistry.gauge(METRICS_PREFIX + "query.time.msec", i);
+	}
+
 }

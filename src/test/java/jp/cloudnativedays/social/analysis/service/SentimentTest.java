@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SentimentTest {
 
@@ -21,7 +21,8 @@ class SentimentTest {
 	@BeforeEach
 	void setUp() {
 		SentimentLoader sentimentLoader = new SentimentLoader(sentiFile);
-		sentiment = new Sentiment(sentimentLoader);
+		MorphologicalAnalysis morphologicalAnalysis = new MorphologicalAnalysis();
+		sentiment = new Sentiment(sentimentLoader, morphologicalAnalysis);
 	}
 
 	@Test
@@ -34,6 +35,14 @@ class SentimentTest {
 		assertEquals(-1, sentiment.getSentimentScore(negativeString));
 		assertEquals(0, sentiment.getSentimentScore(neutralString));
 		assertEquals(0, sentiment.getSentimentScore(posNegString));
+	}
+
+	@Test
+	void getSentimentScoreFromSentence() {
+		final String sentence1 = "かれはていねいです。";
+		final String sentence2 = "かれはずぼらです。";
+		assertEquals(1, sentiment.getSentimentScoreFromSentence(sentence1));
+		assertEquals(-1, sentiment.getSentimentScoreFromSentence(sentence2));
 	}
 
 }

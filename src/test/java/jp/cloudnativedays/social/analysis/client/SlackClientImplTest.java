@@ -1,4 +1,4 @@
-package jp.cloudnativedays.social.analysis.configuration;
+package jp.cloudnativedays.social.analysis.client;
 
 import com.slack.api.app_backend.events.payload.EventsApiPayload;
 import com.slack.api.bolt.context.builtin.EventContext;
@@ -7,52 +7,49 @@ import com.slack.api.model.event.MessageEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SlackInitializerTest {
+class SlackClientImplTest {
 
-	private SlackInitializer slackInitializer;
+	private SlackClient slackClient;
 
 	@BeforeEach
-	void setUp() throws IOException {
-		slackInitializer = new SlackInitializer("dummy-slack-app-token", "dummy-slack-bot-token");
+	void setUp() {
+		slackClient = new SlackClientImpl("dummy-slack-app-token", "dummy-slack-bot-token");
 	}
 
 	@Test
 	void startSocketModeApp() {
-		String message = assertThrows(IllegalStateException.class, () -> slackInitializer.startSocketModeApp())
-				.getMessage();
+		String message = assertThrows(IllegalStateException.class, () -> slackClient.startSocketModeApp()).getMessage();
 
 		assertEquals("Failed to connect to the Socket Mode endpoint URL (error: invalid_auth)", message);
 	}
 
 	@Test
 	void setAppMessageEvent() {
-		slackInitializer.setAppMessageEvent(this::eventHandler);
+		slackClient.setAppMessageEvent(this::eventHandler);
 	}
 
 	@Test
-	void getTeamNameFromEvent() throws IOException {
+	void getTeamNameFromEvent() {
 		MessageEvent payload = new MessageEvent();
 		EventContext ctx = new EventContext();
-		assertEquals("", slackInitializer.getTeamNameFromEvent(payload, ctx));
+		assertEquals("", slackClient.getTeamNameFromEvent(payload, ctx));
 	}
 
 	@Test
-	void getChannelNameFromEvent() throws IOException {
+	void getChannelNameFromEvent() {
 		MessageEvent payload = new MessageEvent();
 		EventContext ctx = new EventContext();
-		assertEquals("", slackInitializer.getChannelNameFromEvent(payload, ctx));
+		assertEquals("", slackClient.getChannelNameFromEvent(payload, ctx));
 	}
 
 	@Test
-	void getUserNameFromEvent() throws IOException {
+	void getUserNameFromEvent() {
 		MessageEvent payload = new MessageEvent();
 		EventContext ctx = new EventContext();
-		assertEquals("", slackInitializer.getUserNameFromEvent(payload, ctx));
+		assertEquals("", slackClient.getUserNameFromEvent(payload, ctx));
 	}
 
 	public Response eventHandler(EventsApiPayload<MessageEvent> payload, EventContext ctx) {

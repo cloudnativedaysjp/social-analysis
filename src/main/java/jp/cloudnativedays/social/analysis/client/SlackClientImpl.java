@@ -1,4 +1,4 @@
-package jp.cloudnativedays.social.analysis.configuration;
+package jp.cloudnativedays.social.analysis.client;
 
 import com.slack.api.bolt.App;
 import com.slack.api.bolt.AppConfig;
@@ -14,11 +14,13 @@ import com.slack.api.methods.response.users.UsersInfoResponse;
 import com.slack.api.model.event.MessageEvent;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+import javax.annotation.PreDestroy;
+
+@Component
 @ConditionalOnProperty(value = "slack.enabled", havingValue = "true")
-public class SlackInitializer {
+public class SlackClientImpl implements SlackClient {
 
 	private final String slackAppToken;
 
@@ -26,8 +28,8 @@ public class SlackInitializer {
 
 	private SocketModeApp socketModeApp;
 
-	public SlackInitializer(@Value("${SLACK_APP_TOKEN}") String slackAppToken,
-			@Value("${SLACK_BOT_TOKEN}") String slackBotToken) {
+	public SlackClientImpl(@Value("${slack.app.token}") String slackAppToken,
+			@Value("${slack.bot.token}") String slackBotToken) {
 
 		this.slackAppToken = slackAppToken;
 		AppConfig appConfig = AppConfig.builder().singleTeamBotToken(slackBotToken).build();
@@ -40,7 +42,8 @@ public class SlackInitializer {
 		socketModeApp.startAsync();
 	}
 
-	public void stopSocketModeApp() throws Exception {
+	@PreDestroy
+	private void stopSocketModeApp() throws Exception {
 		socketModeApp.stop();
 	}
 
