@@ -48,22 +48,21 @@ class WfSpanCustomizerTest {
 
 		assertTrue(spans.size() > 0);
 
-		for (MutableSpan span : spans) {
-			for (int j = 0; j < span.tagCount(); j++) {
+		boolean spanFound = false;
 
-				if (span.tagKeyAt(j).equals("class")) {
-					if (span.tagValueAt(j).startsWith("TestTwitterClient")) {
-						for (int k = 0; k < span.tagCount(); k++) {
-							if (span.tagKeyAt(k).equals("method") && span.tagValueAt(k).equals("search")) {
-								assertEquals("Twitter API", span.tag("_outboundExternalService"));
-								assertEquals("twitter-api", span.tag("_externalComponent"));
-								assertNotNull(span.tag("_externalApplication"));
-							}
-						}
-					}
+		for (MutableSpan span : spans) {
+			try {
+				if (span.tag("class").startsWith("TestTwitterClient") && span.tag("method").equals("search")) {
+					spanFound = true;
+					assertEquals("Twitter API", span.tag("_outboundExternalService"));
+					assertEquals("twitter-api", span.tag("_externalComponent"));
+					assertNotNull(span.tag("_externalApplication"));
 				}
 			}
+			catch (Exception ignored) {
+			}
 		}
+		assertTrue(spanFound);
 	}
 
 	@Test
@@ -206,22 +205,21 @@ class WfSpanCustomizerTest {
 
 		assertTrue(spans.size() > 0);
 
-		for (MutableSpan span : spans) {
-			for (int j = 0; j < span.tagCount(); j++) {
+		boolean spanFound = false;
 
-				if (span.tagKeyAt(j).equals("class")) {
-					if (span.tagValueAt(j).startsWith("TestSlackClient")) {
-						for (int k = 0; k < span.tagCount(); k++) {
-							if (span.tagKeyAt(k).equals("method") && span.tagValueAt(k).startsWith("get")) {
-								assertEquals("Slack API", span.tag("_outboundExternalService"));
-								assertEquals("slack-api", span.tag("_externalComponent"));
-								assertNotNull(span.tag("_externalApplication"));
-							}
-						}
-					}
+		for (MutableSpan span : spans) {
+			try {
+				if (span.tag("class").startsWith("TestSlackClient") && span.tag("method").startsWith("get")) {
+					spanFound = true;
+					assertEquals("Slack API", span.tag("_outboundExternalService"));
+					assertEquals("slack-api", span.tag("_externalComponent"));
+					assertNotNull(span.tag("_externalApplication"));
 				}
 			}
+			catch (Exception ignored) {
+			}
 		}
+		assertTrue(spanFound);
 	}
 
 }
