@@ -21,7 +21,7 @@
         <twiiter4j.version>4.0.7</twiiter4j.version>
         <slackapi.version>1.16.0</slackapi.version>
         <javaxwebsocket.version>1.1</javaxwebsocket.version>
-        <tyrus.version>2.0.3</tyrus.version>
+        <tyrus.version>2.0.4</tyrus.version>
     </properties>
     <dependencies>
         <dependency>
