@@ -9,8 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 public class Sentiment {
@@ -49,6 +52,17 @@ public class Sentiment {
 			sentiScore += getSentimentScore(surface);
 		}
 		return sentiScore;
+	}
+
+	public Map<String, Integer> countWord(String in) {
+		Map<String, Integer> wordCounts = new HashMap<>();
+		List<Token> tokenList = morphologicalAnalysis.getToken(in);
+		tokenList.stream().filter(
+				e -> Objects.equals(e.getPartOfSpeechLevel1(), "名詞") || Objects.equals(e.getPartOfSpeechLevel1(), "動詞"))
+				.map(Token::getSurface).forEach(s -> {
+					wordCounts.put(s, wordCounts.getOrDefault(s, 0) + 1);
+				});
+		return wordCounts;
 	}
 
 }
