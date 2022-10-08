@@ -38,7 +38,6 @@ public class TwitterMetrics {
 		setSentimentMetrics(tweetData);
 		setRetweetCounts(tweetData);
 		setFavoriteCounts(tweetData);
-		setWordCounts(tweetData);
 	}
 
 	public void setSentimentMetrics(TweetData tweetData) {
@@ -77,13 +76,9 @@ public class TwitterMetrics {
 				favoriteGaugeCache, g -> g.get(tweetData.getTweetId()));
 	}
 
-	public void setWordCounts(TweetData tweetData) {
-		wordGaugeCache.put(tweetData.getTweetId(), tweetData.getRetweetCount());
-		tweetData.words.forEach((k, v) -> {
-			meterRegistry.gauge(METRICS_PREFIX + "words",
-					Tags.of(Tag.of(QUERY_STRING, tweetData.getQueryString()), Tag.of(TWEET_ID, tweetData.getTweetId()),
-							Tag.of(USER_NAME, tweetData.getUsername()), Tag.of("words", k)),
-					wordGaugeCache, g -> v);
+	public void setWordCounts(Map<String, Integer> words) {
+		words.forEach((k, v) -> {
+			meterRegistry.gauge(METRICS_PREFIX + "words", Tags.of(Tag.of("words", k)), wordGaugeCache, g -> v);
 		});
 	}
 

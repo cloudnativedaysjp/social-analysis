@@ -40,6 +40,7 @@ public class TwitterService {
 	public void searchTwitterAndSetMetrics() throws TwitterException {
 
 		long start = System.currentTimeMillis();
+		StringBuilder tweetsAsStr = new StringBuilder();
 
 		for (String queryString : queryStrings) {
 			Query query = new Query(queryString + " -filter:retweets");
@@ -63,20 +64,20 @@ public class TwitterService {
 					tweetData.setSentimentScore(0);
 					tweetData.setRetweetCount(status.getRetweetCount());
 					tweetData.setFavoriteCount(status.getFavoriteCount());
-					tweetData.setWordCount(new HashMap<>());
 
 					if (!status.isRetweet() && !twitterMetrics.isSentimentSet(tweetData)) {
 						String tweetTxt = status.getText();
+						tweetsAsStr.append(tweetTxt);
 						if (status.getLang().equals("ja")) {
 							logger.debug("Sentiment Check on tweet : " + tweetTxt);
 							tweetData.setSentimentScore(sentiment.getSentimentScoreFromSentence(tweetTxt));
-							tweetData.setWordCount(sentiment.countWord(tweetTxt));
 						}
 					}
 					twitterMetrics.setMetrics(tweetData);
 				}
 			}
 		}
+		twitterMetrics.setWordCounts(sentiment.countWord(tweetsAsStr.toString()));
 		twitterMetrics.setExecutionTime(System.currentTimeMillis() - start);
 	}
 
