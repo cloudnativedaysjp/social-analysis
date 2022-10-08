@@ -13,6 +13,8 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
+import java.util.HashMap;
+
 @Service
 public class TwitterService {
 
@@ -61,12 +63,14 @@ public class TwitterService {
 					tweetData.setSentimentScore(0);
 					tweetData.setRetweetCount(status.getRetweetCount());
 					tweetData.setFavoriteCount(status.getFavoriteCount());
+					tweetData.setWordCount(new HashMap<>());
 
 					if (!status.isRetweet() && !twitterMetrics.isSentimentSet(tweetData)) {
 						String tweetTxt = status.getText();
 						if (status.getLang().equals("ja")) {
 							logger.debug("Sentiment Check on tweet : " + tweetTxt);
 							tweetData.setSentimentScore(sentiment.getSentimentScoreFromSentence(tweetTxt));
+							tweetData.setWordCount(sentiment.countWord(tweetTxt));
 						}
 					}
 					twitterMetrics.setMetrics(tweetData);
