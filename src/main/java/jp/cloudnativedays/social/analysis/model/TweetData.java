@@ -1,5 +1,7 @@
 package jp.cloudnativedays.social.analysis.model;
 
+import java.util.Map;
+
 public class TweetData {
 
 	public String tweetId;
@@ -13,6 +15,8 @@ public class TweetData {
 	public Integer retweetCount;
 
 	public Integer favoriteCount;
+
+	public Map<String, Integer> words;
 
 	public TweetData(String tweetId, String queryString, String username) {
 		this.tweetId = tweetId;
@@ -55,6 +59,10 @@ public class TweetData {
 
 	public void setFavoriteCount(Integer favoriteCount) {
 		this.favoriteCount = favoriteCount;
+	}
+
+	public void setWordCount(Map<String, Integer> words) {
+		this.words = words;
 	}
 
 }
