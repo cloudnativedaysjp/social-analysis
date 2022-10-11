@@ -69,7 +69,7 @@ public class TwitterService {
 					if (!status.isRetweet() && !twitterMetrics.isSentimentSet(tweetData)) {
 						String tweetTxt = status.getText();
 						if (status.getCreatedAt().getTime() / 1000L > fromTime) {
-							tweetsAsStr.append(tweetTxt);
+							tweetsAsStr.append(tweetTxt).append(" ");
 						}
 						if (status.getLang().equals("ja")) {
 							logger.debug("Sentiment Check on tweet : " + tweetTxt);
@@ -80,7 +80,8 @@ public class TwitterService {
 				}
 			}
 		}
-		twitterMetrics.setWordCounts(sentiment.countWord(tweetsAsStr.toString().replaceAll("[-+.^:,/@&#!]", "")));
+		twitterMetrics.setWordCounts(sentiment
+				.countWord(tweetsAsStr.toString().replaceAll("https?://\\S+\\s?", "").replaceAll("[-+.^:,@&#!]", "")));
 		twitterMetrics.setExecutionTime(System.currentTimeMillis() - start);
 	}
 
