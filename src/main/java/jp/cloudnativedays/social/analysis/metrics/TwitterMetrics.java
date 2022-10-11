@@ -77,6 +77,7 @@ public class TwitterMetrics {
 	}
 
 	public void setWordCounts(Map<String, Integer> words) {
+		wordGaugeCache.clear();
 		words.forEach((k, v) -> {
 			meterRegistry.gauge(METRICS_PREFIX + "words", Tags.of(Tag.of("words", k)), wordGaugeCache, g -> v);
 		});
