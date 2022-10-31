@@ -1,0 +1,43 @@
+logging:
+  level:
+    jp:
+      cloudnativedays:
+        social:
+          analysis: INFO
+    com:
+      slack:
+        api: INFO
+
+sentiment:
+  file: data/pn.csv.m3.120408.trim
+
+
+twitter:
+  enabled: true
+  query: "#o11y2022"
+  # 3min per interval. This should be able to query 500 tweets per min
+  interval: 180000
+
+slack:
+  enabled: false
+
+wavefront:
+  application:
+    name: social-analyzer
+    service: social-analyzer
+  tracing:
+    enabled: false
+    freemiun-account: false
+
+management:
+  endpoint:
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: info,health,prometheus
+  metrics:
+    export:
+      wavefront:
+        enabled: false
