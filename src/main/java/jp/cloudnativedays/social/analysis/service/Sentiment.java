@@ -54,14 +54,4 @@ public class Sentiment {
 		return sentiScore;
 	}
 
-	public Map<String, Integer> countWord(String in) {
-		Map<String, Integer> wordCounts = new HashMap<>();
-		List<Token> tokenList = morphologicalAnalysis.getToken(in);
-		tokenList.stream().filter(e -> Objects.equals(e.getPartOfSpeechLevel1(), "名詞")).map(Token::getSurface)
-				.forEach(s -> {
-					wordCounts.put(s, wordCounts.getOrDefault(s, 0) + 1);
-				});
-		return wordCounts;
-	}
-
 }

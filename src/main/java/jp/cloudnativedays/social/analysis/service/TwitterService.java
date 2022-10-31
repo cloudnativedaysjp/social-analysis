@@ -13,8 +13,6 @@ import twitter4j.QueryResult;
 import twitter4j.Status;
 import twitter4j.TwitterException;
 
-import java.util.HashMap;
-
 @Service
 public class TwitterService {
 
@@ -28,12 +26,15 @@ public class TwitterService {
 
 	private final TwitterClient twitterClient;
 
+	private final WordCount wordCount;
+
 	public TwitterService(Sentiment sentiment, TwitterMetrics twitterMetrics, TwitterClient twitterClient,
-			@Value("${twitter.query}") String[] queryStrings) {
+			@Value("${twitter.query}") String[] queryStrings, WordCount wordCount) {
 		this.sentiment = sentiment;
 		this.twitterMetrics = twitterMetrics;
 		this.twitterClient = twitterClient;
 		this.queryStrings = queryStrings;
+		this.wordCount = wordCount;
 	}
 
 	@NewSpan
@@ -80,8 +81,8 @@ public class TwitterService {
 				}
 			}
 		}
-		twitterMetrics.setWordCounts(sentiment
-				.countWord(tweetsAsStr.toString().replaceAll("https?://\\S+\\s?", "").replaceAll("[-+.^:,@&#!]", "")));
+		twitterMetrics.setWordCounts(wordCount.countWord(
+				tweetsAsStr.toString().replaceAll("https?://\\S+\\s?", "").replaceAll("「[-+.^:,@&#!]」", "")));
 		twitterMetrics.setExecutionTime(System.currentTimeMillis() - start);
 	}
 
