@@ -19,7 +19,7 @@ twitter:
   interval: 180000
 
 slack:
-  enabled: false
+  enabled: true
 
 wavefront:
   application:
