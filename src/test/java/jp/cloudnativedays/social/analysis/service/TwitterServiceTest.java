@@ -16,6 +16,7 @@ import twitter4j.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,6 +72,7 @@ class TwitterServiceTest {
 		when(positiveStatus.isRetweet()).thenReturn(false);
 		when(positiveStatus.getRetweetCount()).thenReturn(10);
 		when(positiveStatus.getFavoriteCount()).thenReturn(20);
+		when(positiveStatus.getCreatedAt()).thenReturn(new Date());
 
 		statuses.add(positiveStatus);
 
@@ -107,6 +109,7 @@ class TwitterServiceTest {
 		when(positiveStatus.isRetweet()).thenReturn(false);
 		when(positiveStatus.getRetweetCount()).thenReturn(10);
 		when(positiveStatus.getFavoriteCount()).thenReturn(20);
+		when(positiveStatus.getCreatedAt()).thenReturn(new Date());
 
 		statuses.add(positiveStatus);
 
@@ -147,6 +150,7 @@ class TwitterServiceTest {
 		when(statusLoop1.isRetweet()).thenReturn(false);
 		when(statusLoop1.getRetweetCount()).thenReturn(10);
 		when(statusLoop1.getFavoriteCount()).thenReturn(20);
+		when(statusLoop1.getCreatedAt()).thenReturn(new Date());
 
 		statusesLoop1.add(statusLoop1);
 
@@ -162,6 +166,7 @@ class TwitterServiceTest {
 		when(statusLoop2.isRetweet()).thenReturn(false);
 		when(statusLoop2.getRetweetCount()).thenReturn(20);
 		when(statusLoop2.getFavoriteCount()).thenReturn(5);
+		when(statusLoop2.getCreatedAt()).thenReturn(new Date());
 
 		statusesLoop2.add(statusLoop2);
 
@@ -210,6 +215,7 @@ class TwitterServiceTest {
 		when(statusLoop1.isRetweet()).thenReturn(false);
 		when(statusLoop1.getRetweetCount()).thenReturn(10);
 		when(statusLoop1.getFavoriteCount()).thenReturn(20);
+		when(statusLoop1.getCreatedAt()).thenReturn(new Date());
 
 		statusesLoop1.add(statusLoop1);
 
@@ -225,6 +231,7 @@ class TwitterServiceTest {
 		when(statusLoop2.isRetweet()).thenReturn(false);
 		when(statusLoop2.getRetweetCount()).thenReturn(20);
 		when(statusLoop2.getFavoriteCount()).thenReturn(5);
+		when(statusLoop2.getCreatedAt()).thenReturn(new Date());
 
 		statusesLoop2.add(statusLoop2);
 
