@@ -26,18 +26,23 @@ public class TwitterService {
 
 	private final TwitterClient twitterClient;
 
+	private final WordCount wordCount;
+
 	public TwitterService(Sentiment sentiment, TwitterMetrics twitterMetrics, TwitterClient twitterClient,
-			@Value("${twitter.query}") String[] queryStrings) {
+			@Value("${twitter.query}") String[] queryStrings, WordCount wordCount) {
 		this.sentiment = sentiment;
 		this.twitterMetrics = twitterMetrics;
 		this.twitterClient = twitterClient;
 		this.queryStrings = queryStrings;
+		this.wordCount = wordCount;
 	}
 
 	@NewSpan
 	public void searchTwitterAndSetMetrics() throws TwitterException {
 
 		long start = System.currentTimeMillis();
+		StringBuilder tweetsAsStr = new StringBuilder();
+		long fromTime = System.currentTimeMillis() / 1000L - 3600;
 
 		for (String queryString : queryStrings) {
 			Query query = new Query(queryString + " -filter:retweets");
@@ -64,6 +69,9 @@ public class TwitterService {
 
 					if (!status.isRetweet() && !twitterMetrics.isSentimentSet(tweetData)) {
 						String tweetTxt = status.getText();
+						if (status.getCreatedAt().getTime() / 1000L > fromTime) {
+							tweetsAsStr.append(tweetTxt).append(" ");
+						}
 						if (status.getLang().equals("ja")) {
 							logger.debug("Sentiment Check on tweet : " + tweetTxt);
 							tweetData.setSentimentScore(sentiment.getSentimentScoreFromSentence(tweetTxt));
@@ -73,6 +81,8 @@ public class TwitterService {
 				}
 			}
 		}
+		twitterMetrics.setWordCounts(wordCount.countWord(
+				tweetsAsStr.toString().replaceAll("https?://\\S+\\s?", "").replaceAll("「[-+.^:,@&#!]」", "")));
 		twitterMetrics.setExecutionTime(System.currentTimeMillis() - start);
 	}
 

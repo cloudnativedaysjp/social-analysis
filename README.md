@@ -28,6 +28,7 @@ The following labels will be included for each metric.
 - `queryString`The query string used to search tweet
 - `tweetId`Individual tweet id
 - `screenName` Screen name of the tweet
+- `words` Words in tweet
 
 Each metric will expose the sentiment score based on the nouns included in the tweet message, retweet counts, and favorite counts.
 
@@ -38,6 +39,8 @@ social_twitter_sentiment{queryString="#o11y2022",screenName="cloudnativedays",tw
 social_twitter_sentiment{queryString="#o11y2022",screenName="cloudnativedays",tweetId="1476023933744910340",} 1.0
 social_twitter_favorites{queryString="#o11y2022",screenName="cloudnativedays",tweetId="1477776728152240129",} 5.0
 social_twitter_favorites{queryString="#o11y2022",screenName="cloudnativedays",tweetId="1476023933744910340",} 9.0
+social_twitter_words{words="NewSQL",} 3.0
+social_twitter_words{words="CNDT",} 2.0
 ```
 
 ## Slack Example

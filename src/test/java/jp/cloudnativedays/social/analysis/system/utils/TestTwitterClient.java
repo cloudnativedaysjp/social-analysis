@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import twitter4j.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
@@ -33,6 +34,7 @@ public class TestTwitterClient implements TwitterClient {
 		when(positiveStatus.isRetweet()).thenReturn(false);
 		when(positiveStatus.getRetweetCount()).thenReturn(10);
 		when(positiveStatus.getFavoriteCount()).thenReturn(20);
+		when(positiveStatus.getCreatedAt()).thenReturn(new Date());
 
 		statuses.add(positiveStatus);
 
