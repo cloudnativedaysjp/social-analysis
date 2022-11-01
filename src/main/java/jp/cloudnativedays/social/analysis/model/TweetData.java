@@ -1,7 +1,5 @@
 package jp.cloudnativedays.social.analysis.model;
 
-import java.util.Map;
-
 public class TweetData {
 
 	public String tweetId;
