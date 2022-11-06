@@ -3,7 +3,6 @@ package jp.cloudnativedays.social.analysis.service;
 import com.atilika.kuromoji.ipadic.Token;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,8 +22,12 @@ public class WordCount {
 	}
 
 	public Map<String, Integer> countWord(String in) {
+		logger.debug(in);
+		String normalizedInput = in.replaceAll("https?://\\S+\\s?", "").replaceAll("[-+.^:;,@&#!?()]", "")
+				.replaceAll("[「」（）]", "");
+		logger.debug(normalizedInput);
 		Map<String, Integer> wordCounts = new HashMap<>();
-		List<Token> tokenList = morphologicalAnalysis.getToken(in);
+		List<Token> tokenList = morphologicalAnalysis.getToken(normalizedInput);
 		tokenList.stream().filter(e -> Objects.equals(e.getPartOfSpeechLevel1(), "名詞")).map(Token::getSurface)
 				.forEach(s -> {
 					wordCounts.put(s, wordCounts.getOrDefault(s, 0) + 1);

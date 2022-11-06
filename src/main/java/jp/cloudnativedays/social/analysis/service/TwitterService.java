@@ -81,8 +81,7 @@ public class TwitterService {
 				}
 			}
 		}
-		twitterMetrics.setWordCounts(wordCount.countWord(
-				tweetsAsStr.toString().replaceAll("https?://\\S+\\s?", "").replaceAll("「[-+.^:,@&#!]」", "")));
+		twitterMetrics.setWordCounts(wordCount.countWord(tweetsAsStr.toString()));
 		twitterMetrics.setExecutionTime(System.currentTimeMillis() - start);
 	}
 
