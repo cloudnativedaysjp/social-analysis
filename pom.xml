@@ -16,7 +16,7 @@
     <properties>
         <java.version>11</java.version>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
-        <wavefront.version>2.3.0</wavefront.version>
+        <wavefront.version>2.3.1</wavefront.version>
         <kuromoji.version>0.9.0</kuromoji.version>
         <twiiter4j.version>4.0.7</twiiter4j.version>
         <slackapi.version>1.16.0</slackapi.version>
