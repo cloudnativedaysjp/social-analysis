@@ -66,12 +66,14 @@ public class TwitterService {
 					tweetData.setSentimentScore(0);
 					tweetData.setRetweetCount(status.getRetweetCount());
 					tweetData.setFavoriteCount(status.getFavoriteCount());
-
-					if (!status.isRetweet() && !twitterMetrics.isSentimentSet(tweetData)) {
+					if (!status.isRetweet()) {
 						String tweetTxt = status.getText();
 						if (status.getCreatedAt().getTime() / 1000L > fromTime) {
 							tweetsAsStr.append(tweetTxt).append(" ");
 						}
+					}
+					if (!status.isRetweet() && !twitterMetrics.isSentimentSet(tweetData)) {
+						String tweetTxt = status.getText();
 						if (status.getLang().equals("ja")) {
 							logger.debug("Sentiment Check on tweet : " + tweetTxt);
 							tweetData.setSentimentScore(sentiment.getSentimentScoreFromSentence(tweetTxt));

@@ -10,7 +10,7 @@
     </parent>
     <groupId>jp.cloudnativedays</groupId>
     <artifactId>social-analysis</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>social-analysis</name>
     <description>Demo project for Spring Boot</description>
     <properties>

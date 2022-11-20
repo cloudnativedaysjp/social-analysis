@@ -4,6 +4,8 @@ import io.micrometer.core.instrument.*;
 import io.micrometer.core.instrument.search.MeterNotFoundException;
 import jp.cloudnativedays.social.analysis.model.TweetData;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -11,6 +13,8 @@ import java.util.Map;
 
 @Component
 public class TwitterMetrics {
+
+	private static final Logger logger = LoggerFactory.getLogger(TwitterMetrics.class);
 
 	private final MeterRegistry meterRegistry;
 
@@ -21,6 +25,8 @@ public class TwitterMetrics {
 	private static final String USER_NAME = "screenName";
 
 	private static final String TWEET_ID = "tweetId";
+
+	private static final String WORD_COUNT_METRICS_NAME = METRICS_PREFIX + "words";
 
 	private final Map<String, Integer> sentimentGaugeCache = new HashMap<>();
 
@@ -77,10 +83,11 @@ public class TwitterMetrics {
 	}
 
 	public void setWordCounts(Map<String, Integer> words) {
-		wordGaugeCache.clear();
+		meterRegistry.getMeters().stream().filter(meter -> WORD_COUNT_METRICS_NAME.equals(meter.getId().getName()))
+				.forEach(meterRegistry::remove);
 		words.forEach((k, v) -> {
-			wordGaugeCache.put(k, v);
-			meterRegistry.gauge(METRICS_PREFIX + "words", Tags.of(Tag.of("words", k)), wordGaugeCache, g -> g.get(k));
+			logger.debug(String.format("%s -> %s\n", k, v));
+			meterRegistry.gauge(WORD_COUNT_METRICS_NAME, Tags.of(Tag.of("words", k)), v);
 		});
 	}
 
