@@ -82,8 +82,7 @@ public class TwitterMetrics {
 	}
 
 	public void setWordCounts(Map<String, Integer> words) {
-		meterRegistry.getMeters().stream()
-				.filter(meter -> meter.getId().getName().equals(METRICS_PREFIX + "words"))
+		meterRegistry.getMeters().stream().filter(meter -> meter.getId().getName().equals(METRICS_PREFIX + "words"))
 				.forEach(meterRegistry::remove);
 		words.forEach((k, v) -> {
 			logger.debug(String.format("%s -> %s\n", k, v));
