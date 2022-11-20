@@ -4,7 +4,6 @@ import io.micrometer.core.instrument.*;
 import io.micrometer.core.instrument.search.MeterNotFoundException;
 import jp.cloudnativedays.social.analysis.model.TweetData;
 
-import jp.cloudnativedays.social.analysis.service.TwitterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,6 +25,8 @@ public class TwitterMetrics {
 	private static final String USER_NAME = "screenName";
 
 	private static final String TWEET_ID = "tweetId";
+
+	private static final String WORD_COUNT_METRICS_NAME = METRICS_PREFIX + "words";
 
 	private final Map<String, Integer> sentimentGaugeCache = new HashMap<>();
 
@@ -82,11 +83,11 @@ public class TwitterMetrics {
 	}
 
 	public void setWordCounts(Map<String, Integer> words) {
-		meterRegistry.getMeters().stream().filter(meter -> meter.getId().getName().equals(METRICS_PREFIX + "words"))
+		meterRegistry.getMeters().stream().filter(meter -> WORD_COUNT_METRICS_NAME.equals(meter.getId().getName()))
 				.forEach(meterRegistry::remove);
 		words.forEach((k, v) -> {
 			logger.debug(String.format("%s -> %s\n", k, v));
-			meterRegistry.gauge(METRICS_PREFIX + "words", Tags.of(Tag.of("words", k)), v);
+			meterRegistry.gauge(WORD_COUNT_METRICS_NAME, Tags.of(Tag.of("words", k)), v);
 		});
 	}
 
