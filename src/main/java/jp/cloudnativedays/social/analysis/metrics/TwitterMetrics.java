@@ -77,10 +77,12 @@ public class TwitterMetrics {
 	}
 
 	public void setWordCounts(Map<String, Integer> words) {
-		wordGaugeCache.clear();
+		meterRegistry.getMeters().stream()
+				.filter(meter -> meter.getId().getName().equals(METRICS_PREFIX + "words"))
+				.forEach(meterRegistry::remove);
 		words.forEach((k, v) -> {
-			wordGaugeCache.put(k, v);
-			meterRegistry.gauge(METRICS_PREFIX + "words", Tags.of(Tag.of("words", k)), wordGaugeCache, g -> g.get(k));
+			System.out.printf("%s -> %s\n", k, v);
+			meterRegistry.gauge(METRICS_PREFIX + "words", Tags.of(Tag.of("words", k)), v);
 		});
 	}
 
