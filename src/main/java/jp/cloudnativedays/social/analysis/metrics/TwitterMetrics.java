@@ -4,6 +4,9 @@ import io.micrometer.core.instrument.*;
 import io.micrometer.core.instrument.search.MeterNotFoundException;
 import jp.cloudnativedays.social.analysis.model.TweetData;
 
+import jp.cloudnativedays.social.analysis.service.TwitterService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -11,6 +14,8 @@ import java.util.Map;
 
 @Component
 public class TwitterMetrics {
+
+	private static final Logger logger = LoggerFactory.getLogger(TwitterMetrics.class);
 
 	private final MeterRegistry meterRegistry;
 
@@ -81,7 +86,7 @@ public class TwitterMetrics {
 				.filter(meter -> meter.getId().getName().equals(METRICS_PREFIX + "words"))
 				.forEach(meterRegistry::remove);
 		words.forEach((k, v) -> {
-			System.out.printf("%s -> %s\n", k, v);
+			logger.debug(String.format("%s -> %s\n", k, v));
 			meterRegistry.gauge(METRICS_PREFIX + "words", Tags.of(Tag.of("words", k)), v);
 		});
 	}
