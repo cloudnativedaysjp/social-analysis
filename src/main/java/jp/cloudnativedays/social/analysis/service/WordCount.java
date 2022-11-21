@@ -21,6 +21,14 @@ public class WordCount {
 		this.morphologicalAnalysis = morphologicalAnalysis;
 	}
 
+	private static boolean filterToken(Token token) {
+		return Objects.equals(token.getPartOfSpeechLevel1(), "名詞")
+				&& !(Objects.equals(token.getPartOfSpeechLevel2(), "非自立")
+						|| Objects.equals(token.getPartOfSpeechLevel2(), "接尾")
+						|| Objects.equals(token.getPartOfSpeechLevel2(), "代名詞")
+						|| Objects.equals(token.getPartOfSpeechLevel2(), "特殊"));
+	}
+
 	public Map<String, Integer> countWord(String in) {
 		logger.debug(in);
 		String normalizedInput = in.replaceAll("https?://\\S+\\s?", "").replaceAll("[-+.^:;,@&#!?()\\[\\]_]", "")
@@ -28,10 +36,10 @@ public class WordCount {
 		logger.debug(normalizedInput);
 		Map<String, Integer> wordCounts = new HashMap<>();
 		List<Token> tokenList = morphologicalAnalysis.getToken(normalizedInput);
-		tokenList.stream().filter(e -> Objects.equals(e.getPartOfSpeechLevel1(), "名詞")).map(Token::getSurface)
-				.forEach(s -> {
-					wordCounts.put(s, wordCounts.getOrDefault(s, 0) + 1);
-				});
+
+		tokenList.stream().filter(WordCount::filterToken).map(Token::getSurface).forEach(s -> {
+			wordCounts.put(s, wordCounts.getOrDefault(s, 0) + 1);
+		});
 		return wordCounts;
 	}
 
