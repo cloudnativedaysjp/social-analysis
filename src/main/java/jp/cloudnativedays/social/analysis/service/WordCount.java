@@ -24,7 +24,7 @@ public class WordCount {
 	public Map<String, Integer> countWord(String in) {
 		logger.debug(in);
 		String normalizedInput = in.replaceAll("https?://\\S+\\s?", "").replaceAll("[-+.^:;,@&#!?()\\[\\]]", "")
-				.replaceAll("[「」（）]", "").replaceAll("CNDT", "").replaceAll("2022", "");
+				.replaceAll("[「」（）]", "").replaceAll("CNDT|2022", "");
 		logger.debug(normalizedInput);
 		Map<String, Integer> wordCounts = new HashMap<>();
 		List<Token> tokenList = morphologicalAnalysis.getToken(normalizedInput);
