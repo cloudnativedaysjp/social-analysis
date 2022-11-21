@@ -23,7 +23,7 @@ public class WordCount {
 
 	public Map<String, Integer> countWord(String in) {
 		logger.debug(in);
-		String normalizedInput = in.replaceAll("https?://\\S+\\s?", "").replaceAll("[-+.^:;,@&#!?()\\[\\]]", "")
+		String normalizedInput = in.replaceAll("https?://\\S+\\s?", "").replaceAll("[-+.^:;,@&#!?()\\[\\]_]", "")
 				.replaceAll("[「」（）]", "").replaceAll("CNDT|2022", "");
 		logger.debug(normalizedInput);
 		Map<String, Integer> wordCounts = new HashMap<>();
