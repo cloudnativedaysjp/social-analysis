@@ -78,6 +78,17 @@ public class WordCountTest {
 		assertEquals(expected, wordCount.countWord(word16));
 		final String word17 = "（今日は、いい天気ですね）";
 		assertEquals(expected, wordCount.countWord(word17));
+		final String word18 = "[今日は、いい天気ですね]";
+		assertEquals(expected, wordCount.countWord(word18));
+	}
+
+	@Test
+	void shouldRemoveEventname() {
+		final Map<String, Integer> expected = Map.of("今日", 1, "天気", 1);
+		final String word1 = "#CNDT2022 今日は、いい天気ですね";
+		final String word2 = "今日は、いい天気ですね #CNDT2022";
+		assertEquals(expected, wordCount.countWord(word1));
+		assertEquals(expected, wordCount.countWord(word2));
 	}
 
 }
